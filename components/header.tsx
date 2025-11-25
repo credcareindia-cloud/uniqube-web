@@ -39,13 +39,6 @@ export default function Header() {
 
           {/* DESKTOP NAVIGATION */}
           <div className="hidden md:flex items-center gap-8">
-            <Link
-              href="/docs"
-              className="flex items-center gap-2 text-sm text-neutral-700 hover:text-neutral-900 font-medium transition-colors"
-            >
-              <FileText className="w-4 h-4" />
-              Installation Manual
-            </Link>
 
             <div className="text-right text-sm leading-tight">
               <p className="text-neutral-900 font-semibold">+971 6 526 2202</p>
