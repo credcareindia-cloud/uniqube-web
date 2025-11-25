@@ -17,7 +17,7 @@ export default function Hero() {
         playsInline
         className="absolute inset-0 w-full h-full object-cover"
       >
-        <source src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/WhatsApp%20Video%202025-11-19%20at%2022.39.04_42ba2bce-KrQ5a5wCqdx3qJWcsqtzbMLgjIx0z6.mp4" type="video/mp4" />
+        <source src="https://yvt4zt8otzn0p90m.public.blob.vercel-storage.com/WhatsApp%20Video%202025-11-24%20at%2018.02.23_fee7fe3c.mp4" type="video/mp4" />
       </video>
 
       {/* Dark overlay for text readability */}
