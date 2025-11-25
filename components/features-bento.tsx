@@ -104,12 +104,12 @@ export default function FeaturesBento() {
                 />
                 <button
                   ref={(el) => (buttonRefs.current["modular"] = el)}
-                  className="absolute bottom-3 right-3 bg-white rounded-full p-2 shadow-md hover:bg-slate-50"
+                  className="absolute bottom-3 right-3 bg-white rounded-full p-2 shadow-md hover:bg-orange-500 transition-colors group/btn"
                   onMouseEnter={() => handleMouseEnter("modular")}
                   onMouseLeave={() => setHoveredCard(null)}
                 >
-                  <svg className="w-4 h-4 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                  <svg className="w-4 h-4 text-slate-900 group-hover/btn:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                   </svg>
                 </button>
               </div>
@@ -130,12 +130,12 @@ export default function FeaturesBento() {
                 />
                 <button
                   ref={(el) => (buttonRefs.current["precision"] = el)}
-                  className="absolute bottom-3 right-3 bg-white rounded-full p-2 shadow-md hover:bg-slate-50"
+                  className="absolute bottom-3 right-3 bg-white rounded-full p-2 shadow-md hover:bg-orange-500 transition-colors group/btn"
                   onMouseEnter={() => handleMouseEnter("precision")}
                   onMouseLeave={() => setHoveredCard(null)}
                 >
-                  <svg className="w-4 h-4 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                  <svg className="w-4 h-4 text-slate-900 group-hover/btn:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                   </svg>
                 </button>
               </div>
@@ -156,12 +156,12 @@ export default function FeaturesBento() {
                 />
                 <button
                   ref={(el) => (buttonRefs.current["mep"] = el)}
-                  className="absolute bottom-3 right-3 bg-white rounded-full p-2 shadow-md hover:bg-slate-50"
+                  className="absolute bottom-3 right-3 bg-white rounded-full p-2 shadow-md hover:bg-orange-500 transition-colors group/btn"
                   onMouseEnter={() => handleMouseEnter("mep")}
                   onMouseLeave={() => setHoveredCard(null)}
                 >
-                  <svg className="w-4 h-4 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                  <svg className="w-4 h-4 text-slate-900 group-hover/btn:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                   </svg>
                 </button>
               </div>
@@ -182,12 +182,12 @@ export default function FeaturesBento() {
                 />
                 <button
                   ref={(el) => (buttonRefs.current["structural"] = el)}
-                  className="absolute bottom-3 right-3 bg-white rounded-full p-2 shadow-md hover:bg-slate-50"
+                  className="absolute bottom-3 right-3 bg-white rounded-full p-2 shadow-md hover:bg-orange-500 transition-colors group/btn"
                   onMouseEnter={() => handleMouseEnter("structural")}
                   onMouseLeave={() => setHoveredCard(null)}
                 >
-                  <svg className="w-4 h-4 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                  <svg className="w-4 h-4 text-slate-900 group-hover/btn:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                   </svg>
                 </button>
               </div>
@@ -208,12 +208,12 @@ export default function FeaturesBento() {
                 />
                 <button
                   ref={(el) => (buttonRefs.current["energy"] = el)}
-                  className="absolute bottom-3 right-3 bg-white rounded-full p-2 shadow-md hover:bg-slate-50"
+                  className="absolute bottom-3 right-3 bg-white rounded-full p-2 shadow-md hover:bg-orange-500 transition-colors group/btn"
                   onMouseEnter={() => handleMouseEnter("energy")}
                   onMouseLeave={() => setHoveredCard(null)}
                 >
-                  <svg className="w-4 h-4 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                  <svg className="w-4 h-4 text-slate-900 group-hover/btn:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                   </svg>
                 </button>
               </div>
