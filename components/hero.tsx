@@ -60,53 +60,53 @@ export default function Hero() {
       </div>
 
       {/* Main Content - Centered and Minimal - Only visible when main video plays */}
-      <div className={`relative z-10 h-full flex flex-col items-center justify-center px-6 transition-opacity duration-1000 ${showMainVideo ? 'opacity-100' : 'opacity-0'}`}>
-        <div className="max-w-5xl mx-auto text-center space-y-10 animate-fade-in">
+      <div className={`relative z-10 h-full flex flex-col items-center justify-center px-4 sm:px-6 transition-opacity duration-1000 ${showMainVideo ? 'opacity-100' : 'opacity-0'}`}>
+        <div className="max-w-5xl mx-auto text-center space-y-6 sm:space-y-8 md:space-y-10 animate-fade-in">
 
           {/* Main Headline - Apple-style Typography */}
-          <div className="space-y-6">
-            <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold text-white leading-[0.95] tracking-tight">
+          <div className="space-y-3 sm:space-y-4 md:space-y-6">
+            <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-semibold text-white leading-[0.95] tracking-tight">
               Revolutionary
             </h1>
-            <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold text-white/90 leading-tight tracking-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-semibold text-white/90 leading-tight tracking-tight">
               Modular Construction
             </h2>
-            <p className="text-xl sm:text-2xl md:text-3xl text-white/80 font-light max-w-3xl mx-auto leading-relaxed pt-4">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl text-white/80 font-light max-w-3xl mx-auto leading-relaxed pt-2 sm:pt-3 md:pt-4 px-2">
               Precision-engineered building systems for the future
             </p>
           </div>
 
           {/* CTA Buttons - Minimal Apple-style */}
-          <div className="flex flex-col sm:flex-row gap-5 justify-center items-center pt-8">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-5 justify-center items-center pt-4 sm:pt-6 md:pt-8">
             <button
               onClick={() => scrollToSection('overview')}
-              className="group px-10 py-4 bg-white text-black rounded-full font-semibold text-lg hover:bg-white/90 transition-all duration-300 flex items-center gap-3"
+              className="w-full sm:w-auto group px-6 sm:px-8 md:px-10 py-3 sm:py-3.5 md:py-4 bg-white text-black rounded-full font-semibold text-sm sm:text-base md:text-lg hover:bg-white/90 transition-all duration-300 flex items-center justify-center gap-2 sm:gap-3"
             >
               <span>Explore System</span>
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
             </button>
 
             <button
               onClick={() => scrollToSection('contact')}
-              className="px-10 py-4 border-2 border-white/30 text-white rounded-full font-semibold text-lg hover:bg-white/10 hover:border-white/50 transition-all duration-300 backdrop-blur-sm"
+              className="w-full sm:w-auto px-6 sm:px-8 md:px-10 py-3 sm:py-3.5 md:py-4 border-2 border-white/30 text-white rounded-full font-semibold text-sm sm:text-base md:text-lg hover:bg-white/10 hover:border-white/50 transition-all duration-300 backdrop-blur-sm"
             >
               Get in Touch
             </button>
           </div>
 
           {/* Minimal Stats - Clean Apple-style */}
-          <div className="pt-16">
-            <div className="inline-flex divide-x divide-white/20 backdrop-blur-md bg-white/10 rounded-full px-2 py-3 border border-white/20">
+          <div className="pt-8 sm:pt-12 md:pt-16">
+            <div className="inline-flex flex-col sm:flex-row divide-y sm:divide-y-0 sm:divide-x divide-white/20 backdrop-blur-md bg-white/10 rounded-2xl sm:rounded-full px-2 py-3 border border-white/20">
               {[
                 { value: '50%', label: 'Faster' },
                 { value: '30+', label: 'Projects' },
                 { value: '100%', label: 'Quality' },
               ].map((stat, index) => (
-                <div key={index} className="px-8 sm:px-12 text-center">
-                  <div className="text-3xl sm:text-4xl font-semibold text-white mb-1">
+                <div key={index} className="px-6 sm:px-8 md:px-10 lg:px-12 py-2 sm:py-0 text-center">
+                  <div className="text-2xl sm:text-3xl md:text-4xl font-semibold text-white mb-0.5 sm:mb-1">
                     {stat.value}
                   </div>
-                  <div className="text-xs sm:text-sm text-white/70 font-medium">
+                  <div className="text-xs sm:text-xs md:text-sm text-white/70 font-medium">
                     {stat.label}
                   </div>
                 </div>
