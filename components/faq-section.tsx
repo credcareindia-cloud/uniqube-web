@@ -183,6 +183,7 @@ const categoryIcons: Record<string, any> = {
 export default function FAQSection() {
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set())
   const [selectedCategory, setSelectedCategory] = useState<string>(categories[0])
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const toggleItem = (question: string) => {
     const newExpanded = new Set(expandedItems)
@@ -192,6 +193,11 @@ export default function FAQSection() {
       newExpanded.add(question)
     }
     setExpandedItems(newExpanded)
+  }
+
+  const handleCategorySelect = (category: string) => {
+    setSelectedCategory(category)
+    setMobileMenuOpen(false)
   }
 
   const filteredFAQ = selectedCategory ? faqData.filter((item) => item.category === selectedCategory) : faqData
@@ -206,23 +212,82 @@ export default function FAQSection() {
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Modern Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12 md:mb-16">
           <div className="inline-block bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wide mb-6 shadow-lg">
             Got Questions?
           </div>
-          <h2 className="text-5xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight">
+          <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold text-slate-900 mb-6 tracking-tight leading-tight">
             Frequently Asked
             <span className="block bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
               Questions
             </span>
           </h2>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed font-light">
             Everything you need to know about UniQube modular construction systems
           </p>
         </div>
 
-        {/* Category Filter with Modern Design */}
-        <div className="mb-12">
+        {/* Mobile Category Selector */}
+        <div className="lg:hidden mb-8">
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            className="w-full bg-white rounded-2xl shadow-xl border border-slate-200 p-5 flex items-center justify-between"
+          >
+            <div className="flex items-center gap-3">
+              {(() => {
+                const CategoryIcon = categoryIcons[selectedCategory]
+                return (
+                  <>
+                    <div className={`w-12 h-12 bg-gradient-to-br ${categoryColors[selectedCategory]} rounded-xl flex items-center justify-center text-white shadow-lg`}>
+                      <CategoryIcon className="w-6 h-6" />
+                    </div>
+                    <div className="text-left">
+                      <div className="text-xs uppercase tracking-wide text-slate-500 font-semibold mb-0.5">Category</div>
+                      <div className="text-base sm:text-lg font-semibold text-slate-900">{selectedCategory}</div>
+                    </div>
+                  </>
+                )
+              })()}
+            </div>
+            <ChevronDown
+              className={`w-6 h-6 text-slate-400 transition-transform ${mobileMenuOpen ? 'rotate-180' : ''}`}
+            />
+          </button>
+
+          {/* Mobile Category Dropdown */}
+          {mobileMenuOpen && (
+            <div className="mt-4 bg-white rounded-2xl shadow-xl border border-slate-200 p-4 max-h-[60vh] overflow-y-auto custom-scrollbar">
+              <div className="space-y-2">
+                {categories.map((category) => {
+                  const CategoryIcon = categoryIcons[category]
+                  return (
+                    <button
+                      key={category}
+                      onClick={() => handleCategorySelect(category)}
+                      className={cn(
+                        "w-full group relative px-5 py-4 rounded-xl font-semibold text-sm transition-all duration-300 text-left",
+                        selectedCategory === category
+                          ? `bg-gradient-to-br ${categoryColors[category]} text-white shadow-lg`
+                          : "bg-slate-50 text-slate-700 border border-slate-200 hover:border-slate-300 hover:shadow-md"
+                      )}
+                    >
+                      <div className="flex items-center gap-3">
+                        <CategoryIcon className="w-5 h-5" />
+                        <span>{category}</span>
+                      </div>
+                      {selectedCategory === category && (
+                        <div className="absolute top-1/2 right-4 -translate-y-1/2 w-2 h-2 bg-white rounded-full border-2 border-orange-500 animate-pulse"></div>
+                      )}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Desktop Category Filter with Modern Design */}
+        <div className="hidden lg:block mb-12">
           <div className="text-center mb-6">
             <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">Select Category</p>
           </div>
@@ -234,7 +299,7 @@ export default function FAQSection() {
                   key={category}
                   onClick={() => setSelectedCategory(category)}
                   className={cn(
-                    "group relative px-6 py-4 rounded-2xl font-bold text-sm transition-all duration-300 hover:scale-105",
+                    "group relative px-6 py-4 rounded-2xl font-semibold text-sm transition-all duration-300 hover:scale-105 tracking-tight",
                     selectedCategory === category
                       ? `bg-gradient-to-br ${categoryColors[category]} text-white shadow-xl`
                       : "bg-white text-slate-700 border-2 border-slate-200 hover:border-slate-300 shadow-md"
@@ -254,14 +319,14 @@ export default function FAQSection() {
         </div>
 
         {/* FAQ Items with Modern Design */}
-        <div className="space-y-4 mb-16">
+        <div className="space-y-3 sm:space-y-4 mb-16">
           {filteredFAQ.map((item, index) => {
             const isExpanded = expandedItems.has(item.question)
             return (
               <div
                 key={index}
                 className={cn(
-                  "group rounded-2xl overflow-hidden transition-all duration-300",
+                  "group rounded-xl sm:rounded-2xl overflow-hidden transition-all duration-300",
                   isExpanded
                     ? "bg-white shadow-2xl border-2 border-orange-400"
                     : "bg-white shadow-md border-2 border-slate-200 hover:border-slate-300 hover:shadow-lg"
@@ -270,17 +335,17 @@ export default function FAQSection() {
               >
                 <button
                   onClick={() => toggleItem(item.question)}
-                  className="w-full px-8 py-6 flex items-center justify-between transition-colors"
+                  className="w-full px-4 sm:px-6 md:px-8 py-4 sm:py-5 md:py-6 flex items-center justify-between transition-colors"
                 >
-                  <div className="flex items-start gap-4 text-left flex-1">
+                  <div className="flex items-start gap-3 sm:gap-4 text-left flex-1">
                     <div className={cn(
-                      "flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-white font-black text-lg shadow-lg transition-transform",
+                      "flex-shrink-0 w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl flex items-center justify-center text-white font-black text-base sm:text-lg shadow-lg transition-transform",
                       isExpanded ? `bg-gradient-to-br ${categoryColors[selectedCategory]} scale-110` : "bg-slate-400 group-hover:scale-110"
                     )}>
                       {index + 1}
                     </div>
                     <h3 className={cn(
-                      "text-lg font-bold transition-colors flex-1",
+                      "text-sm sm:text-base md:text-lg font-semibold transition-colors flex-1 tracking-tight",
                       isExpanded ? "text-slate-900" : "text-slate-700 group-hover:text-slate-900"
                     )}>
                       {item.question}
@@ -288,17 +353,17 @@ export default function FAQSection() {
                   </div>
                   <ChevronDown
                     className={cn(
-                      "w-6 h-6 flex-shrink-0 ml-4 transition-all duration-300",
+                      "w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 ml-2 sm:ml-4 transition-all duration-300",
                       isExpanded ? "rotate-180 text-orange-500" : "text-slate-400 group-hover:text-slate-600"
                     )}
                   />
                 </button>
 
                 {isExpanded && (
-                  <div className="px-8 pb-6">
-                    <div className="pl-14 pr-10">
-                      <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-xl p-6 border-l-4 border-orange-500">
-                        <p className="text-slate-700 leading-relaxed">{item.answer}</p>
+                  <div className="px-4 sm:px-6 md:px-8 pb-4 sm:pb-5 md:pb-6">
+                    <div className="sm:pl-14 pr-0 sm:pr-10">
+                      <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-lg sm:rounded-xl p-4 sm:p-5 md:p-6 border-l-4 border-orange-500">
+                        <p className="text-sm sm:text-base text-slate-700 leading-relaxed font-light">{item.answer}</p>
                       </div>
                     </div>
                   </div>
@@ -310,40 +375,75 @@ export default function FAQSection() {
 
         {/* Contact CTA with Modern Design */}
         <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-500 rounded-3xl blur-xl opacity-20"></div>
-          <div className="relative bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-12 text-white shadow-2xl overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl sm:rounded-3xl blur-xl opacity-20"></div>
+          <div className="relative bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl sm:rounded-3xl p-6 sm:p-8 md:p-12 text-white shadow-2xl overflow-hidden">
             {/* Decorative elements */}
             <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl"></div>
             <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
 
             <div className="relative z-10 text-center">
-              <div className="inline-block bg-orange-500 text-white px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wide mb-6 shadow-lg">
+              <div className="inline-block bg-orange-500 text-white px-4 sm:px-6 py-2 rounded-full text-xs sm:text-sm font-bold uppercase tracking-wide mb-4 sm:mb-6 shadow-lg">
                 Still Need Help?
               </div>
-              <h3 className="text-4xl font-black mb-4">Let's Talk About Your Project</h3>
-              <p className="text-slate-300 text-lg mb-8 max-w-2xl mx-auto">
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-semibold mb-3 sm:mb-4 tracking-tight">Let's Talk About Your Project</h3>
+              <p className="text-slate-300 text-base sm:text-lg mb-6 sm:mb-8 max-w-2xl mx-auto font-light">
                 Contact our team for more detailed information about UniQube modular construction
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
                 <a
                   href="mailto:arbab@mulkholdings.com"
-                  className="group px-8 py-4 bg-white text-slate-900 rounded-full font-bold text-lg hover:bg-orange-500 hover:text-white transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center justify-center gap-2"
+                  className="group px-6 sm:px-8 py-3 sm:py-4 bg-white text-slate-900 rounded-full font-semibold text-base sm:text-lg hover:bg-orange-500 hover:text-white transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center justify-center gap-2"
                 >
-                  <Mail className="w-5 h-5" />
+                  <Mail className="w-4 h-4 sm:w-5 sm:h-5" />
                   <span>Email Us</span>
                 </a>
                 <a
                   href="tel:+971566856608"
-                  className="group px-8 py-4 border-3 border-white text-white rounded-full font-bold text-lg hover:bg-white hover:text-slate-900 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center justify-center gap-2"
+                  className="group px-6 sm:px-8 py-3 sm:py-4 border-2 sm:border-3 border-white text-white rounded-full font-semibold text-base sm:text-lg hover:bg-white hover:text-slate-900 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center justify-center gap-2"
                 >
-                  <Phone className="w-5 h-5" />
-                  <span>Call +971 56 6856608</span>
+                  <Phone className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span className="hidden xs:inline">Call +971 56 6856608</span>
+                  <span className="xs:hidden">Call Now</span>
                 </a>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Custom Scrollbar Styles */}
+      <style jsx>{`
+        :global(.custom-scrollbar) {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(148, 163, 184, 0.3) transparent;
+        }
+
+        :global(.custom-scrollbar::-webkit-scrollbar) {
+          width: 8px;
+        }
+
+        :global(.custom-scrollbar::-webkit-scrollbar-track) {
+          background: transparent;
+          border-radius: 10px;
+        }
+
+        :global(.custom-scrollbar::-webkit-scrollbar-thumb) {
+          background: linear-gradient(180deg, rgba(148, 163, 184, 0.3) 0%, rgba(100, 116, 139, 0.3) 100%);
+          border-radius: 10px;
+          border: 2px solid transparent;
+          background-clip: padding-box;
+        }
+
+        :global(.custom-scrollbar::-webkit-scrollbar-thumb:hover) {
+          background: linear-gradient(180deg, rgba(148, 163, 184, 0.5) 0%, rgba(100, 116, 139, 0.5) 100%);
+          background-clip: padding-box;
+        }
+
+        :global(.custom-scrollbar::-webkit-scrollbar-thumb:active) {
+          background: linear-gradient(180deg, rgba(148, 163, 184, 0.7) 0%, rgba(100, 116, 139, 0.7) 100%);
+          background-clip: padding-box;
+        }
+      `}</style>
     </section>
   )
 }

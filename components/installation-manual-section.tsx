@@ -248,8 +248,14 @@ const categoryBadgeColors = {
 export default function InstallationManualSection() {
   const [activeId, setActiveId] = useState<SectionId>("foundation")
   const [activeTab, setActiveTab] = useState<"overview" | "method" | "qc" | "tds">("overview")
+  const [mobileExpanded, setMobileExpanded] = useState(false)
 
   const active = SECTIONS.find((s) => s.id === activeId)!
+
+  const handleSectionClick = (id: SectionId) => {
+    setActiveId(id)
+    setMobileExpanded(false) // Close mobile menu after selection
+  }
 
   return (
     <section id="installation-manual" className="w-full py-20 bg-gradient-to-br from-slate-50 via-white to-slate-50 relative overflow-hidden">
@@ -281,16 +287,76 @@ export default function InstallationManualSection() {
         </div>
 
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sidebar - Compact Grid View */}
-          <aside className="lg:w-80 shrink-0">
-            <div className="sticky top-24">
-              <div className="bg-white rounded-2xl shadow-xl border border-slate-200 p-4 max-h-[calc(100vh-120px)] overflow-y-auto">
-                <div className="text-xs uppercase tracking-widest text-slate-500 font-bold mb-4 px-2">Select Section</div>
-                <div className="grid grid-cols-3 lg:grid-cols-2 gap-2">
+          {/* Mobile Section Selector */}
+          <div className="lg:hidden">
+            <button
+              onClick={() => setMobileExpanded(!mobileExpanded)}
+              className="w-full bg-white rounded-2xl shadow-xl border border-slate-200 p-6 flex items-center justify-between"
+            >
+              <div className="flex items-center gap-4">
+                <div className={`w-14 h-14 bg-gradient-to-br ${categoryColors[active.category]} rounded-xl flex items-center justify-center text-white font-black text-2xl shadow-lg`}>
+                  {active.code}
+                </div>
+                <div className="text-left">
+                  <div className="text-xs uppercase tracking-wide text-slate-500 font-semibold mb-1">Section {active.code}</div>
+                  <div className="text-lg font-semibold text-slate-900">{active.title}</div>
+                </div>
+              </div>
+              <svg
+                className={`w-6 h-6 text-slate-400 transition-transform ${mobileExpanded ? 'rotate-180' : ''}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+
+            {/* Mobile Dropdown Grid */}
+            {mobileExpanded && (
+              <div className="mt-4 bg-white rounded-2xl shadow-xl border border-slate-200 p-4 max-h-[60vh] overflow-y-auto custom-scrollbar">
+                <div className="grid grid-cols-3 gap-2">
                   {SECTIONS.map((section) => (
                     <button
                       key={section.id}
-                      onClick={() => setActiveId(section.id)}
+                      onClick={() => handleSectionClick(section.id)}
+                      className={`group relative p-3 rounded-xl border-2 transition-all duration-300 hover:scale-105 ${
+                        activeId === section.id
+                          ? `border-transparent bg-gradient-to-br ${categoryColors[section.category]} shadow-lg`
+                          : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-md"
+                      }`}
+                    >
+                      <div className={`text-xl font-black mb-1 ${
+                        activeId === section.id ? "text-white" : "text-slate-400 group-hover:text-slate-600"
+                      }`}>
+                        {section.code}
+                      </div>
+                      <div className={`text-[9px] font-semibold uppercase tracking-wide leading-tight ${
+                        activeId === section.id ? "text-white/90" : "text-slate-600"
+                      }`}>
+                        {section.title.split(' ').slice(0, 2).join(' ')}
+                      </div>
+
+                      {activeId === section.id && (
+                        <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-white rounded-full border-2 border-orange-500 animate-pulse"></div>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Desktop Sidebar - Compact Grid View */}
+          <aside className="hidden lg:block lg:w-80 shrink-0">
+            <div className="sticky top-24">
+              <div className="bg-white rounded-2xl shadow-xl border border-slate-200 p-4 max-h-[calc(100vh-120px)] overflow-y-auto custom-scrollbar">
+                <div className="text-xs uppercase tracking-widest text-slate-500 font-bold mb-4 px-2">Select Section</div>
+                <div className="grid grid-cols-2 gap-2">
+                  {SECTIONS.map((section) => (
+                    <button
+                      key={section.id}
+                      onClick={() => handleSectionClick(section.id)}
                       className={`group relative p-4 rounded-xl border-2 transition-all duration-300 hover:scale-105 ${
                         activeId === section.id
                           ? `border-transparent bg-gradient-to-br ${categoryColors[section.category]} shadow-lg`
@@ -493,6 +559,38 @@ export default function InstallationManualSection() {
 
         .animate-slide-up {
           animation: slide-up 0.8s ease-out forwards;
+        }
+
+        /* Custom Scrollbar - Apple/Samsung Style */
+        :global(.custom-scrollbar) {
+          scrollbar-width: thin;
+          scrollbar-color: rgba(148, 163, 184, 0.3) transparent;
+        }
+
+        :global(.custom-scrollbar::-webkit-scrollbar) {
+          width: 8px;
+        }
+
+        :global(.custom-scrollbar::-webkit-scrollbar-track) {
+          background: transparent;
+          border-radius: 10px;
+        }
+
+        :global(.custom-scrollbar::-webkit-scrollbar-thumb) {
+          background: linear-gradient(180deg, rgba(148, 163, 184, 0.3) 0%, rgba(100, 116, 139, 0.3) 100%);
+          border-radius: 10px;
+          border: 2px solid transparent;
+          background-clip: padding-box;
+        }
+
+        :global(.custom-scrollbar::-webkit-scrollbar-thumb:hover) {
+          background: linear-gradient(180deg, rgba(148, 163, 184, 0.5) 0%, rgba(100, 116, 139, 0.5) 100%);
+          background-clip: padding-box;
+        }
+
+        :global(.custom-scrollbar::-webkit-scrollbar-thumb:active) {
+          background: linear-gradient(180deg, rgba(148, 163, 184, 0.7) 0%, rgba(100, 116, 139, 0.7) 100%);
+          background-clip: padding-box;
         }
       `}</style>
     </section>

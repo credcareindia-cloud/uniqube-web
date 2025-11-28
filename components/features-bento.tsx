@@ -120,12 +120,151 @@ export default function FeaturesBento() {
           </p>
         </div>
 
-        <div className="grid grid-cols-3 gap-6 auto-rows-[320px] md:auto-rows-[360px]">
+        {/* Mobile/Tablet: Single column stacked layout */}
+        <div className="block md:hidden space-y-4">
+          {/* 1. Modular Assembly */}
+          <div className={`rounded-xl overflow-hidden bg-slate-100 border border-slate-200 hover:shadow-lg transition-all duration-700 group ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '200ms' }}>
+            <div className="flex flex-col">
+              <div className="px-5 pt-5 pb-3">
+                <h3 className="text-lg font-semibold text-slate-900 tracking-tight">Modular Assembly</h3>
+              </div>
+              <div className="h-48 relative overflow-hidden bg-gradient-to-br from-slate-200 to-slate-100">
+                <img
+                  src="/modular-construction-units-stacked-assembly.jpg"
+                  alt="Modular Assembly"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="px-5 py-4 bg-white">
+                <p className="text-sm text-slate-600 font-light mb-3">{cardData.modular.description}</p>
+                <ul className="text-xs text-slate-600 space-y-1">
+                  {cardData.modular.features.map((feature, index) => (
+                    <li key={index} className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-orange-500 rounded-full flex-shrink-0"></span>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* 2. Precision Engineering */}
+          <div className={`rounded-xl overflow-hidden bg-slate-100 border border-slate-200 hover:shadow-lg transition-all duration-700 group ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '300ms' }}>
+            <div className="flex flex-col">
+              <div className="px-5 pt-5 pb-3">
+                <h3 className="text-lg font-semibold text-slate-900 tracking-tight">Technical Data Sheet</h3>
+              </div>
+              <div className="h-48 relative overflow-hidden bg-gradient-to-br from-slate-200 to-slate-100">
+                <img
+                  src="/precision-measurement-construction-tolerances-engi.jpg"
+                  alt="Precision Engineering"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="px-5 py-4 bg-white">
+                <p className="text-sm text-slate-600 font-light mb-3">{cardData.precision.description}</p>
+                <ul className="text-xs text-slate-600 space-y-1">
+                  {cardData.precision.features.map((feature, index) => (
+                    <li key={index} className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-orange-500 rounded-full flex-shrink-0"></span>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* 3. Pre-Integrated MEP */}
+          <div className={`rounded-xl overflow-hidden bg-slate-100 border border-slate-200 hover:shadow-lg transition-all duration-700 group ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '400ms' }}>
+            <div className="flex flex-col">
+              <div className="px-5 pt-5 pb-3">
+                <h3 className="text-lg font-semibold text-slate-900 tracking-tight">Pre-Integrated MEP</h3>
+              </div>
+              <div className="h-48 relative overflow-hidden bg-gradient-to-br from-slate-200 to-slate-100">
+                <img
+                  src="/integrated-mep-systems-electrical-plumbing-hvac-co.jpg"
+                  alt="Integrated Systems"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="px-5 py-4 bg-white">
+                <p className="text-sm text-slate-600 font-light mb-3">{cardData.mep.description}</p>
+                <ul className="text-xs text-slate-600 space-y-1">
+                  {cardData.mep.features.map((feature, index) => (
+                    <li key={index} className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-orange-500 rounded-full flex-shrink-0"></span>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* 4. Structural Capacity */}
+          <div className={`rounded-xl overflow-hidden bg-slate-100 border border-slate-200 hover:shadow-lg transition-all duration-700 group ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '500ms' }}>
+            <div className="flex flex-col">
+              <div className="px-5 pt-5 pb-3">
+                <h3 className="text-lg font-semibold text-slate-900 tracking-tight">Structural Capacity</h3>
+              </div>
+              <div className="h-48 relative overflow-hidden bg-gradient-to-br from-slate-200 to-slate-100">
+                <img
+                  src="/structural-frame-lgs-light-gauge-steel-building.jpg"
+                  alt="Structural"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="px-5 py-4 bg-white">
+                <p className="text-sm text-slate-600 font-light mb-3">{cardData.structural.description}</p>
+                <ul className="text-xs text-slate-600 space-y-1">
+                  {cardData.structural.features.map((feature, index) => (
+                    <li key={index} className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-orange-500 rounded-full flex-shrink-0"></span>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          {/* 5. Energy Efficient */}
+          <div className={`rounded-xl overflow-hidden bg-slate-900 border border-slate-800 hover:shadow-lg transition-all duration-700 group ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '600ms' }}>
+            <div className="flex flex-col">
+              <div className="px-5 pt-5 pb-3">
+                <h3 className="text-lg font-semibold text-white tracking-tight">Energy Efficient</h3>
+              </div>
+              <div className="h-48 relative overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
+                <img
+                  src="/sustainable-green-construction-energy-efficient-bu.jpg"
+                  alt="Energy Efficiency"
+                  className="w-full h-full object-cover opacity-70"
+                />
+              </div>
+              <div className="px-5 py-4 bg-slate-900">
+                <p className="text-sm text-slate-300 font-light mb-3">{cardData.energy.description}</p>
+                <ul className="text-xs text-slate-300 space-y-1">
+                  {cardData.energy.features.map((feature, index) => (
+                    <li key={index} className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 bg-orange-500 rounded-full flex-shrink-0"></span>
+                      <span>{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop: Bento grid layout */}
+        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 auto-rows-[280px] lg:auto-rows-[320px] xl:auto-rows-[360px]">
           {/* 1. Modular Assembly - Top Left */}
           <div className={`rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 hover:shadow-lg transition-all duration-700 group ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '200ms' }}>
             <div className="h-full flex flex-col">
-              <div className="px-6 pt-6 pb-4">
-                <h3 className="text-xl font-semibold text-slate-900 tracking-tight">Modular Assembly</h3>
+              <div className="px-4 lg:px-6 pt-4 lg:pt-6 pb-3 lg:pb-4">
+                <h3 className="text-lg lg:text-xl font-semibold text-slate-900 tracking-tight">Modular Assembly</h3>
               </div>
               <div className="flex-1 relative overflow-hidden bg-gradient-to-br from-slate-200 to-slate-100">
                 <img
@@ -150,8 +289,8 @@ export default function FeaturesBento() {
           {/* 2. Precision Engineering - Top Center */}
           <div className={`rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 hover:shadow-lg transition-all duration-700 group ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '300ms' }}>
             <div className="h-full flex flex-col">
-              <div className="px-6 pt-6 pb-4">
-                <h3 className="text-xl font-semibold text-slate-900 tracking-tight">Technical Data Sheet</h3>
+              <div className="px-4 lg:px-6 pt-4 lg:pt-6 pb-3 lg:pb-4">
+                <h3 className="text-lg lg:text-xl font-semibold text-slate-900 tracking-tight">Technical Data Sheet</h3>
               </div>
               <div className="flex-1 relative overflow-hidden bg-gradient-to-br from-slate-200 to-slate-100">
                 <img
@@ -173,11 +312,11 @@ export default function FeaturesBento() {
             </div>
           </div>
 
-          {/* 3. Integrated Systems - Top Right */}
-          <div className={`rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 hover:shadow-lg transition-all duration-700 group ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '400ms' }}>
+          {/* 3. Integrated Systems - Top Right (spans 2 cols on md, 1 on lg) */}
+          <div className={`md:col-span-2 lg:col-span-1 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 hover:shadow-lg transition-all duration-700 group ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '400ms' }}>
             <div className="h-full flex flex-col">
-              <div className="px-6 pt-6 pb-4">
-                <h3 className="text-xl font-semibold text-slate-900 tracking-tight">Pre-Integrated MEP</h3>
+              <div className="px-4 lg:px-6 pt-4 lg:pt-6 pb-3 lg:pb-4">
+                <h3 className="text-lg lg:text-xl font-semibold text-slate-900 tracking-tight">Pre-Integrated MEP</h3>
               </div>
               <div className="flex-1 relative overflow-hidden bg-gradient-to-br from-slate-200 to-slate-100">
                 <img
@@ -199,11 +338,11 @@ export default function FeaturesBento() {
             </div>
           </div>
 
-          {/* 4. Structural Performance - Bottom Left (2x1) */}
-          <div className={`col-span-2 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 hover:shadow-lg transition-all duration-700 group ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '500ms' }}>
+          {/* 4. Structural Performance - Bottom Left (2x1 on lg) */}
+          <div className={`lg:col-span-2 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 hover:shadow-lg transition-all duration-700 group ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '500ms' }}>
             <div className="h-full flex flex-col">
-              <div className="px-6 pt-6 pb-4">
-                <h3 className="text-2xl font-semibold text-slate-900 tracking-tight">Structural Capacity</h3>
+              <div className="px-4 lg:px-6 pt-4 lg:pt-6 pb-3 lg:pb-4">
+                <h3 className="text-xl lg:text-2xl font-semibold text-slate-900 tracking-tight">Structural Capacity</h3>
               </div>
               <div className="flex-1 relative overflow-hidden bg-gradient-to-br from-slate-200 to-slate-100">
                 <img
@@ -228,8 +367,8 @@ export default function FeaturesBento() {
           {/* 5. Energy Efficiency - Bottom Right */}
           <div className={`rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 hover:shadow-lg transition-all duration-700 group ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '600ms' }}>
             <div className="h-full flex flex-col">
-              <div className="px-6 pt-6 pb-4">
-                <h3 className="text-xl font-semibold text-white tracking-tight">Energy Efficient</h3>
+              <div className="px-4 lg:px-6 pt-4 lg:pt-6 pb-3 lg:pb-4">
+                <h3 className="text-lg lg:text-xl font-semibold text-white tracking-tight">Energy Efficient</h3>
               </div>
               <div className="flex-1 relative overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
                 <img
