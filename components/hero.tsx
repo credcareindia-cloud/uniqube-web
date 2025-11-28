@@ -52,7 +52,7 @@ export default function Hero() {
           playsInline
           className="absolute inset-0 w-full h-full object-cover"
         >
-          <source src="https://yvt4zt8otzn0p90m.public.blob.vercel-storage.com/WhatsApp%20Video%202025-11-24%20at%2018.02.23_fee7fe3c.mp4" type="video/mp4" />
+          <source src="uni.mp4" type="video/mp4" />
         </video>
 
         {/* Minimal gradient overlay - only for text readability */}
