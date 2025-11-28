@@ -56,7 +56,7 @@ export default function FeaturesBento() {
 
   const cardData = {
     modular: {
-      title: "Modular Assembly System",
+      title: "Panelised assembly system",
       description: "Factory-built precision modules with standardized connections for rapid on-site assembly.",
       image: "/modular-construction-units-stacked-assembly.jpg",
       features: [
@@ -90,8 +90,8 @@ export default function FeaturesBento() {
       description: "Light Gauge Steel (LGS) frames engineered to meet rigorous load-bearing and seismic requirements.",
       image: "/structural-frame-lgs-light-gauge-steel-building.jpg",
       features: [
-        "345 MPa yield strength",
-        "Seismic zone certified",
+        "345 MPa or 50 ksi yield strength",
+        "Wind & Seismic zone certified",
         "Multi-story capability"
       ]
     },
@@ -131,7 +131,7 @@ export default function FeaturesBento() {
               <div className="h-48 relative overflow-hidden bg-gradient-to-br from-slate-200 to-slate-100">
                 <img
                   src="/modular-construction-units-stacked-assembly.jpg"
-                  alt="Modular Assembly"
+                  alt="Panelised Assembly System"
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -264,12 +264,12 @@ export default function FeaturesBento() {
           <div className={`rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 hover:shadow-lg transition-all duration-700 group ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '200ms' }}>
             <div className="h-full flex flex-col">
               <div className="px-4 lg:px-6 pt-4 lg:pt-6 pb-3 lg:pb-4">
-                <h3 className="text-lg lg:text-xl font-semibold text-slate-900 tracking-tight">Modular Assembly</h3>
+                <h3 className="text-lg lg:text-xl font-semibold text-slate-900 tracking-tight">Panelised Assembly System</h3>
               </div>
               <div className="flex-1 relative overflow-hidden bg-gradient-to-br from-slate-200 to-slate-100">
                 <img
                   src="/modular-construction-units-stacked-assembly.jpg"
-                  alt="Modular Assembly"
+                  alt="Panelised Assembly System"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <button
@@ -340,20 +340,20 @@ export default function FeaturesBento() {
 
           {/* 4. Structural Performance - Bottom Left (2x1 on lg) */}
           <div className={`lg:col-span-2 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 hover:shadow-lg transition-all duration-700 group ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '500ms' }}>
-            <div className="h-full flex flex-col">
+               <div className="h-full flex flex-col">
               <div className="px-4 lg:px-6 pt-4 lg:pt-6 pb-3 lg:pb-4">
-                <h3 className="text-xl lg:text-2xl font-semibold text-slate-900 tracking-tight">Structural Capacity</h3>
+                <h3 className="text-xl lg:text-2xl font-semibold text-slate-900 tracking-tight">Energy Efficient</h3>
               </div>
-              <div className="flex-1 relative overflow-hidden bg-gradient-to-br from-slate-200 to-slate-100">
+              <div className="flex-1 relative overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
                 <img
-                  src="/structural-frame-lgs-light-gauge-steel-building.jpg"
-                  alt="Structural"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  src="/sustainable-green-construction-energy-efficient-bu.jpg"
+                  alt="Energy Efficiency"
+                  className="w-full h-full object-cover opacity-70 group-hover:opacity-85 transition-opacity duration-300"
                 />
                 <button
-                  ref={(el) => (buttonRefs.current["structural"] = el)}
+                  ref={(el) => (buttonRefs.current["energy"] = el)}
                   className="absolute bottom-3 right-3 bg-white rounded-full p-2 shadow-md hover:bg-orange-500 transition-colors group/btn"
-                  onMouseEnter={() => handleMouseEnter("structural")}
+                  onMouseEnter={() => handleMouseEnter("energy")}
                   onMouseLeave={() => setHoveredCard(null)}
                 >
                   <svg className="w-4 h-4 text-slate-900 group-hover/btn:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -366,20 +366,20 @@ export default function FeaturesBento() {
 
           {/* 5. Energy Efficiency - Bottom Right */}
           <div className={`rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 hover:shadow-lg transition-all duration-700 group ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '600ms' }}>
-            <div className="h-full flex flex-col">
+           <div className="h-full flex flex-col">
               <div className="px-4 lg:px-6 pt-4 lg:pt-6 pb-3 lg:pb-4">
-                <h3 className="text-lg lg:text-xl font-semibold text-white tracking-tight">Energy Efficient</h3>
+                <h3 className="text-lg lg:text-xl font-semibold text-white tracking-tight">Structural Capacity</h3>
               </div>
-              <div className="flex-1 relative overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
+              <div className="flex-1 relative overflow-hidden bg-gradient-to-br from-slate-200 to-slate-100">
                 <img
-                  src="/sustainable-green-construction-energy-efficient-bu.jpg"
-                  alt="Energy Efficiency"
-                  className="w-full h-full object-cover opacity-70 group-hover:opacity-85 transition-opacity duration-300"
+                  src="/structural-frame-lgs-light-gauge-steel-building.jpg"
+                  alt="Structural"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 <button
-                  ref={(el) => (buttonRefs.current["energy"] = el)}
+                  ref={(el) => (buttonRefs.current["structural"] = el)}
                   className="absolute bottom-3 right-3 bg-white rounded-full p-2 shadow-md hover:bg-orange-500 transition-colors group/btn"
-                  onMouseEnter={() => handleMouseEnter("energy")}
+                  onMouseEnter={() => handleMouseEnter("structural")}
                   onMouseLeave={() => setHoveredCard(null)}
                 >
                   <svg className="w-4 h-4 text-slate-900 group-hover/btn:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -615,15 +615,23 @@ function renderOverview(id: SectionId) {
           <ul className="space-y-2 ml-6">
             <li className="flex items-start gap-3">
               <span className="text-orange-500 text-xl">→</span>
-              <span><strong>ICF Foundation (preferred)</strong> – USA, Canada, earthquake zones</span>
+              <span><strong>RC wall footing with slab on grade (preferably ICF wall footing)</strong></span>
             </li>
             <li className="flex items-start gap-3">
               <span className="text-orange-500 text-xl">→</span>
-              <span><strong>Wet-Pour Reinforced Concrete Slab</strong> – Middle East, Africa, India</span>
+              <span><strong>CMU wall footing with slab on grade</strong> </span>
             </li>
             <li className="flex items-start gap-3">
               <span className="text-orange-500 text-xl">→</span>
-              <span><strong>Dry Construction Raised Foundation</strong> – Steel or concrete blocks</span>
+              <span><strong>Monolithic slab with grade beam</strong></span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-orange-500 text-xl">→</span>
+              <span><strong>post tensioned stiffened beam-slab footing</strong></span>
+            </li>
+            <li className="flex items-start gap-3">
+              <span className="text-orange-500 text-xl">→</span>
+              <span><strong>Screw pile footing</strong></span>
             </li>
           </ul>
           <div className="bg-orange-50 border-l-4 border-orange-500 p-4 rounded-r-xl mt-4">
