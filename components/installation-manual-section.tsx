@@ -2,6 +2,7 @@
 
 import Image from "next/image"
 import { useState } from "react"
+import { FileText, Wrench, CheckCircle, BarChart3, Image as ImageIcon } from "lucide-react"
 
 type SectionId =
   | "foundation"
@@ -33,6 +34,7 @@ interface SectionConfig {
   short: string
   discipline: string
   images: string[]
+  category: "structure" | "envelope" | "mep" | "finish" | "warranty"
 }
 
 const SECTIONS: SectionConfig[] = [
@@ -42,6 +44,7 @@ const SECTIONS: SectionConfig[] = [
     title: "Foundations & Base Connection",
     short: "Strip, raft, pad and slab foundations – tolerances, anchoring, QC.",
     discipline: "CIVIL / STRUCTURE",
+    category: "structure",
     images: ["Foundation 3D", "Anchor bolt detail", "DPC + starter track 3D"],
   },
   {
@@ -50,6 +53,7 @@ const SECTIONS: SectionConfig[] = [
     title: "External & Internal LGS Frames",
     short: "Load-bearing / non-load-bearing walls, studs, tracks, bracing.",
     discipline: "STRUCTURE",
+    category: "structure",
     images: ["Wall frame 3D", "Hold-down / bracket detail"],
   },
   {
@@ -58,6 +62,7 @@ const SECTIONS: SectionConfig[] = [
     title: "Floor Joists & Subfloor",
     short: "Joists, noggins, deflection control, sheathing, service penetrations.",
     discipline: "STRUCTURE",
+    category: "structure",
     images: ["Joist layout 3D", "Joist-to-wall connection"],
   },
   {
@@ -66,6 +71,7 @@ const SECTIONS: SectionConfig[] = [
     title: "Boarding System (OSB, USG, Cement Board)",
     short: "Board types, fixing patterns, joint gapping, edge support.",
     discipline: "ARCHITECTURAL",
+    category: "envelope",
     images: ["Wall board build-up 3D", "Screw pattern detail"],
   },
   {
@@ -74,6 +80,7 @@ const SECTIONS: SectionConfig[] = [
     title: "Waterproofing System",
     short: "Tyvek + liquid-applied membranes for walls, roofs, wet areas.",
     discipline: "ARCHITECTURAL",
+    category: "envelope",
     images: ["Tyvek wrap 3D", "Liquid waterproofing at balcony / bathroom"],
   },
   {
@@ -82,6 +89,7 @@ const SECTIONS: SectionConfig[] = [
     title: "Insulation in Wall Cavity",
     short: "Rockwool, spray foam and light-weight concrete infill options.",
     discipline: "THERMAL / ACOUSTIC",
+    category: "envelope",
     images: ["Wall cavity 3D with insulation variants"],
   },
   {
@@ -90,6 +98,7 @@ const SECTIONS: SectionConfig[] = [
     title: "Windows & Doors (Spec Overview)",
     short: "UPVC / aluminum windows and door systems – performance overview.",
     discipline: "ARCHITECTURAL",
+    category: "envelope",
     images: ["Window types 3D", "Door leaf & frame types"],
   },
   {
@@ -98,6 +107,7 @@ const SECTIONS: SectionConfig[] = [
     title: "Cladding System (ACP, Brick, Paint)",
     short: "Ventilated ACP, brick slips, render/paint systems and substructure.",
     discipline: "FACADE",
+    category: "envelope",
     images: ["ACP substructure 3D", "Brick slip section"],
   },
   {
@@ -106,6 +116,7 @@ const SECTIONS: SectionConfig[] = [
     title: "Roofing Envelope",
     short: "Standing seam, shingles, flat roof membranes, gutters, drainage.",
     discipline: "ROOFING",
+    category: "envelope",
     images: ["Roof build-up 3D", "Ridge & eaves detail"],
   },
   {
@@ -114,6 +125,7 @@ const SECTIONS: SectionConfig[] = [
     title: "MEP Overview",
     short: "High-level coordination of electrical, plumbing, HVAC in UniQube walls.",
     discipline: "MEP COORDINATION",
+    category: "mep",
     images: ["MEP coordination section 3D"],
   },
   {
@@ -122,6 +134,7 @@ const SECTIONS: SectionConfig[] = [
     title: "Joint Treatment & Board Waterproofing",
     short: "Mesh, compounds, expansion joints, wet zone detailing.",
     discipline: "FINISH / ENVELOPE",
+    category: "finish",
     images: ["Joint treatment 3D", "Wet area joint detail"],
   },
   {
@@ -130,6 +143,7 @@ const SECTIONS: SectionConfig[] = [
     title: "Flooring System",
     short: "Tiles, vinyl/SPC, solid surface wet room floors.",
     discipline: "FINISH",
+    category: "finish",
     images: ["Tile build-up 3D", "Wet room floor detail"],
   },
   {
@@ -138,6 +152,7 @@ const SECTIONS: SectionConfig[] = [
     title: "Ceiling System",
     short: "Gypsum ceilings, cement board soffits, access panels.",
     discipline: "FINISH / MEP",
+    category: "finish",
     images: ["Ceiling frame + board 3D"],
   },
   {
@@ -146,6 +161,7 @@ const SECTIONS: SectionConfig[] = [
     title: "Painting & Finishing",
     short: "Primer, putty, top coats, interior & exterior systems.",
     discipline: "FINISH",
+    category: "finish",
     images: ["Interior / exterior paint layer diagram"],
   },
   {
@@ -154,6 +170,7 @@ const SECTIONS: SectionConfig[] = [
     title: "Roof Structural System",
     short: "Trusses, joists, hybrid roofs, structural tying.",
     discipline: "STRUCTURE",
+    category: "structure",
     images: ["Truss 3D", "Roof-to-wall connection"],
   },
   {
@@ -162,6 +179,7 @@ const SECTIONS: SectionConfig[] = [
     title: "External Facade Systems",
     short: "ACP, brick slips, WPC, lap siding, stone – full facade logic.",
     discipline: "FACADE",
+    category: "envelope",
     images: ["Facade build-up 3D"],
   },
   {
@@ -170,6 +188,7 @@ const SECTIONS: SectionConfig[] = [
     title: "Door & Window Installation",
     short: "Flashing, waterproofing, foam, sealants, expansion gaps.",
     discipline: "FACADE / ARCHITECTURAL",
+    category: "envelope",
     images: ["Head / sill / jamb details"],
   },
   {
@@ -178,6 +197,7 @@ const SECTIONS: SectionConfig[] = [
     title: "Electrical System",
     short: "Conduits, DB, circuits, smart-ready, testing & commissioning.",
     discipline: "MEP – ELECTRICAL",
+    category: "mep",
     images: ["Conduit in LGS wall 3D", "DB layout sketch"],
   },
   {
@@ -186,6 +206,7 @@ const SECTIONS: SectionConfig[] = [
     title: "Plumbing System",
     short: "PPR, UPVC, manifolds, drainage slopes, testing.",
     discipline: "MEP – PLUMBING",
+    category: "mep",
     images: ["Bathroom plumbing layout 3D"],
   },
   {
@@ -194,6 +215,7 @@ const SECTIONS: SectionConfig[] = [
     title: "HVAC System",
     short: "Split, ducted, VRF systems – piping, drains, commissioning.",
     discipline: "MEP – HVAC",
+    category: "mep",
     images: ["Split AC + drain detail", "Ducted system layout"],
   },
   {
@@ -202,158 +224,277 @@ const SECTIONS: SectionConfig[] = [
     title: "UniQube Warranty System",
     short: "Structural, waterproofing, MEP, facade, finishes & conditions.",
     discipline: "LEGAL / QA",
+    category: "warranty",
     images: ["Warranty coverage diagram"],
   },
 ]
 
+const categoryColors = {
+  structure: "from-blue-500 to-indigo-600",
+  envelope: "from-green-500 to-emerald-600",
+  mep: "from-purple-500 to-violet-600",
+  finish: "from-orange-500 to-red-600",
+  warranty: "from-slate-700 to-slate-900",
+}
+
+const categoryBadgeColors = {
+  structure: "bg-blue-100 text-blue-700 border-blue-200",
+  envelope: "bg-green-100 text-green-700 border-green-200",
+  mep: "bg-purple-100 text-purple-700 border-purple-200",
+  finish: "bg-orange-100 text-orange-700 border-orange-200",
+  warranty: "bg-slate-100 text-slate-700 border-slate-200",
+}
+
 export default function InstallationManualSection() {
   const [activeId, setActiveId] = useState<SectionId>("foundation")
+  const [activeTab, setActiveTab] = useState<"overview" | "method" | "qc" | "tds">("overview")
 
   const active = SECTIONS.find((s) => s.id === activeId)!
 
   return (
-    <section id="installation-manual" className="w-full py-16 bg-white">
-      <div className="max-w-7xl mx-auto px-4">
-        {/* Header */}
-        <div className="mb-8">
-          <div className="flex items-center gap-4 mb-4">
-            <div className="relative w-10 h-10">
+    <section id="installation-manual" className="w-full py-20 bg-gradient-to-br from-slate-50 via-white to-slate-50 relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-orange-100 rounded-full blur-3xl opacity-20 animate-pulse"></div>
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-20 animate-pulse" style={{ animationDelay: '1s' }}></div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        {/* Modern Header */}
+        <div className="text-center mb-16 animate-fade-in">
+          <div className="inline-flex items-center gap-3 bg-white rounded-full px-6 py-3 shadow-lg mb-6 border border-slate-200">
+            <div className="relative w-8 h-8">
               <Image src="/logo.png" alt="UniQube Logo" fill className="object-contain" />
             </div>
-            <div>
-              <div className="text-base font-bold tracking-tight text-slate-900">UniQube – Installation Manual</div>
-              <div className="text-xs text-slate-500">Sections 1–21</div>
-            </div>
+            <span className="text-sm font-semibold text-slate-700">Installation Manual</span>
+            <span className="text-xs bg-orange-100 text-orange-600 px-3 py-1 rounded-full font-bold">21 Sections</span>
           </div>
-          {/* <div className="flex items-center gap-3 flex-wrap">
-            <button className="hidden md:inline-flex items-center gap-2 rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors">
-              Download PDF
-            </button>
-            <span className="text-xs rounded-full border border-slate-300 bg-slate-50 px-3 py-1.5 text-slate-600 font-medium">
-              v2.0 Project-specific
+          <h2 className="text-5xl font-black text-slate-900 mb-4 tracking-tight">
+            Complete Technical
+            <span className="block bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
+              Documentation
             </span>
-          </div> */}
+          </h2>
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+            Comprehensive step-by-step guides for UniQube assembly, quality control, and technical specifications
+          </p>
         </div>
 
-        <div className="flex gap-6">
-          {/* Sidebar Navigation */}
-          <aside className="hidden md:block w-72 shrink-0">
-            <div className="sticky top-24 space-y-3 max-h-[calc(100vh-120px)] overflow-y-auto pr-3">
-              <div className="text-xs uppercase tracking-widest text-slate-500 font-semibold px-1 mb-3">Sections</div>
-              <nav className="space-y-2">
-                {SECTIONS.map((section) => (
-                  <button
-                    key={section.id}
-                    onClick={() => setActiveId(section.id)}
-                    className={`w-full text-left px-4 py-3 rounded-xl border-2 text-sm leading-snug transition ${
-                      activeId === section.id
-                        ? "border-orange-400 bg-orange-50 text-slate-900 shadow-sm"
-                        : "border-slate-200 bg-white text-slate-700 hover:bg-slate-50"
-                    }`}
-                  >
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="font-bold text-xs text-slate-500">{section.code}</span>
-                      <span className="text-xs text-slate-500">{section.discipline}</span>
-                    </div>
-                    <div className="truncate text-sm font-semibold text-slate-900">{section.title}</div>
-                    <div className="text-xs text-slate-600 line-clamp-2 mt-1">{section.short}</div>
-                  </button>
-                ))}
-              </nav>
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Sidebar - Compact Grid View */}
+          <aside className="lg:w-80 shrink-0">
+            <div className="sticky top-24">
+              <div className="bg-white rounded-2xl shadow-xl border border-slate-200 p-4 max-h-[calc(100vh-120px)] overflow-y-auto">
+                <div className="text-xs uppercase tracking-widest text-slate-500 font-bold mb-4 px-2">Select Section</div>
+                <div className="grid grid-cols-3 lg:grid-cols-2 gap-2">
+                  {SECTIONS.map((section) => (
+                    <button
+                      key={section.id}
+                      onClick={() => setActiveId(section.id)}
+                      className={`group relative p-4 rounded-xl border-2 transition-all duration-300 hover:scale-105 ${
+                        activeId === section.id
+                          ? `border-transparent bg-gradient-to-br ${categoryColors[section.category]} shadow-lg`
+                          : "border-slate-200 bg-white hover:border-slate-300 hover:shadow-md"
+                      }`}
+                    >
+                      <div className={`text-2xl font-black mb-1 ${
+                        activeId === section.id ? "text-white" : "text-slate-400 group-hover:text-slate-600"
+                      }`}>
+                        {section.code}
+                      </div>
+                      <div className={`text-[10px] font-bold uppercase tracking-wide leading-tight ${
+                        activeId === section.id ? "text-white/90" : "text-slate-600"
+                      }`}>
+                        {section.title.split(' ').slice(0, 3).join(' ')}
+                      </div>
+
+                      {/* Active indicator */}
+                      {activeId === section.id && (
+                        <div className="absolute -top-1 -right-1 w-3 h-3 bg-white rounded-full border-2 border-orange-500 animate-pulse"></div>
+                      )}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </aside>
 
           {/* Main Content */}
-          <main className="flex-1 space-y-6 pb-12">
-            {/* Section header */}
-            <section className="rounded-2xl border-2 border-slate-200 bg-gradient-to-br from-white to-slate-50 p-6">
-              <div className="flex flex-wrap items-center justify-between gap-3 mb-3">
-                <div>
-                  <div className="text-xs font-semibold text-slate-500 uppercase tracking-wide">
-                    Section {active.code} · {active.discipline}
+          <main className="flex-1">
+            {/* Section Header Card */}
+            <div className={`bg-gradient-to-br ${categoryColors[active.category]} rounded-3xl p-8 mb-8 text-white shadow-2xl animate-slide-up`}>
+              <div className="flex items-start justify-between mb-6">
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="text-6xl font-black opacity-90">{active.code}</span>
+                    <span className="bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wide">
+                      {active.discipline}
+                    </span>
                   </div>
-                  <h1 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 mt-1">{active.title}</h1>
-                </div>
-                <div className="flex flex-wrap gap-2">
-                  <span className="rounded-full border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-600 bg-white">
-                    Web View + PDF
-                  </span>
+                  <h1 className="text-3xl md:text-4xl font-black mb-3 leading-tight">{active.title}</h1>
+                  <p className="text-lg text-white/90 leading-relaxed max-w-3xl">{active.short}</p>
                 </div>
               </div>
-              <p className="text-base text-slate-700 leading-relaxed">{active.short}</p>
-            </section>
 
-            {/* Content cards */}
-            <section className="grid gap-6 md:grid-cols-2">
-              {/* Overview card */}
-              <article className="rounded-2xl border-2 border-slate-200 bg-white p-6 flex flex-col shadow-sm hover:shadow-md transition">
-                <div className="mb-3 flex items-center justify-between gap-2">
-                  <h2 className="text-base font-bold text-slate-900">1. Overview & Scope</h2>
-                  <span className="text-xs rounded-full bg-orange-50 border border-orange-200 px-2.5 py-1 text-orange-700 font-medium">
-                    Read first
-                  </span>
+              {/* Tab Navigation */}
+              <div className="flex gap-2 flex-wrap">
+                {[
+                  { id: "overview", label: "Overview", Icon: FileText },
+                  { id: "method", label: "Method", Icon: Wrench },
+                  { id: "qc", label: "QC Check", Icon: CheckCircle },
+                  { id: "tds", label: "Specs", Icon: BarChart3 },
+                ].map((tab) => {
+                  const TabIcon = tab.Icon
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id as typeof activeTab)}
+                      className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-sm transition-all duration-300 ${
+                        activeTab === tab.id
+                          ? "bg-white text-slate-900 shadow-lg scale-105"
+                          : "bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm"
+                      }`}
+                    >
+                      <TabIcon className="w-4 h-4" />
+                      {tab.label}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+
+            {/* Content Area */}
+            <div className="bg-white rounded-3xl shadow-xl border border-slate-200 p-8 mb-8 animate-fade-in">
+              {activeTab === "overview" && (
+                <div className="prose prose-slate max-w-none">
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 bg-gradient-to-br from-orange-400 to-orange-600 rounded-xl flex items-center justify-center text-white shadow-lg">
+                      <FileText className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-black text-slate-900 m-0">Overview & Scope</h3>
+                      <p className="text-sm text-slate-500 m-0">Understanding the fundamentals</p>
+                    </div>
+                  </div>
+                  <div className="text-slate-700 leading-relaxed space-y-4">
+                    {renderOverview(active.id)}
+                  </div>
                 </div>
-                <div className="text-sm text-slate-700 space-y-2 leading-relaxed">{renderOverview(active.id)}</div>
-              </article>
+              )}
 
-              {/* Method card */}
-              <article className="rounded-2xl border-2 border-slate-200 bg-white p-6 flex flex-col shadow-sm hover:shadow-md transition">
-                <div className="mb-3 flex items-center justify-between gap-2">
-                  <h2 className="text-base font-bold text-slate-900">2. Installation Method</h2>
-                  <span className="text-xs rounded-full bg-blue-50 border border-blue-200 px-2.5 py-1 text-blue-700 font-medium">
-                    Step-by-step
-                  </span>
+              {activeTab === "method" && (
+                <div>
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg">
+                      <Wrench className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-black text-slate-900 m-0">Installation Method</h3>
+                      <p className="text-sm text-slate-500 m-0">Step-by-step procedures</p>
+                    </div>
+                  </div>
+                  <ol className="space-y-4">
+                    {renderMethodSteps(active.id)}
+                  </ol>
                 </div>
-                <ol className="mt-2 space-y-2 text-sm text-slate-700 list-decimal list-inside">
-                  {renderMethod(active.id)}
-                </ol>
-              </article>
+              )}
 
-              {/* QC card */}
-              <article className="rounded-2xl border-2 border-slate-200 bg-white p-6 flex flex-col shadow-sm hover:shadow-md transition">
-                <div className="mb-3 flex items-center justify-between gap-2">
-                  <h2 className="text-base font-bold text-slate-900">3. QC Checklist</h2>
-                  <span className="text-xs rounded-full bg-green-50 border border-green-200 px-2.5 py-1 text-green-700 font-medium">
-                    Must pass
-                  </span>
+              {activeTab === "qc" && (
+                <div>
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-xl flex items-center justify-center text-white shadow-lg">
+                      <CheckCircle className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-black text-slate-900 m-0">Quality Control Checklist</h3>
+                      <p className="text-sm text-slate-500 m-0">Must-pass requirements</p>
+                    </div>
+                  </div>
+                  <ul className="space-y-3">
+                    {renderQCItems(active.id)}
+                  </ul>
                 </div>
-                <ul className="mt-2 space-y-2 text-sm text-slate-700 list-disc list-inside">{renderQC(active.id)}</ul>
-              </article>
+              )}
 
-              {/* TDS card */}
-              <article className="rounded-2xl border-2 border-slate-200 bg-white p-6 flex flex-col shadow-sm hover:shadow-md transition">
-                <div className="mb-3 flex items-center justify-between gap-2">
-                  <h2 className="text-base font-bold text-slate-900">4. TDS & Notes</h2>
-                  <span className="text-xs rounded-full bg-purple-50 border border-purple-200 px-2.5 py-1 text-purple-700 font-medium">
-                    Specs
-                  </span>
+              {activeTab === "tds" && (
+                <div>
+                  <div className="flex items-center gap-3 mb-6">
+                    <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-purple-600 rounded-xl flex items-center justify-center text-white shadow-lg">
+                      <BarChart3 className="w-6 h-6" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-black text-slate-900 m-0">Technical Specifications</h3>
+                      <p className="text-sm text-slate-500 m-0">Detailed data & measurements</p>
+                    </div>
+                  </div>
+                  <div className="text-slate-700">
+                    {renderTDS(active.id)}
+                  </div>
                 </div>
-                <div className="text-sm text-slate-700 space-y-2 leading-relaxed">{renderTDS(active.id)}</div>
-              </article>
-            </section>
+              )}
+            </div>
 
-            {/* Images required */}
-            <section className="rounded-2xl border-2 border-slate-200 bg-slate-50 p-6">
-              <div className="flex items-center justify-between gap-2 mb-3">
-                <h2 className="text-base font-bold text-slate-900">3D & Detail Images to Attach</h2>
-                <span className="text-xs rounded-full bg-slate-100 border border-slate-300 px-2.5 py-1 text-slate-700 font-medium">
-                  For 3D team
+            {/* Images Section */}
+            <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl shadow-2xl p-8 text-white">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h3 className="text-2xl font-black mb-1">3D & Detail Images</h3>
+                  <p className="text-slate-400 text-sm">Visual documentation required</p>
+                </div>
+                <span className="bg-orange-500 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wide shadow-lg">
+                  For 3D Team
                 </span>
               </div>
-              <ul className="flex flex-wrap gap-3 text-sm">
-                {active.images.map((img) => (
-                  <li
+              <div className="flex flex-wrap gap-3">
+                {active.images.map((img, index) => (
+                  <div
                     key={img}
-                    className="rounded-lg border-2 border-slate-300 bg-white px-4 py-2 text-slate-700 font-medium"
+                    className="group bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl px-5 py-3 hover:bg-white/20 transition-all duration-300 hover:scale-105 hover:shadow-xl cursor-pointer"
+                    style={{ animationDelay: `${index * 100}ms` }}
                   >
-                    {img}
-                  </li>
+                    <div className="flex items-center gap-2">
+                      <ImageIcon className="w-5 h-5" />
+                      <span className="font-semibold text-sm">{img}</span>
+                    </div>
+                  </div>
                 ))}
-              </ul>
-            </section>
+              </div>
+            </div>
           </main>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes slide-up {
+          from {
+            opacity: 0;
+            transform: translateY(30px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .animate-fade-in {
+          animation: fade-in 0.6s ease-out forwards;
+        }
+
+        .animate-slide-up {
+          animation: slide-up 0.8s ease-out forwards;
+        }
+      `}</style>
     </section>
   )
 }
@@ -366,60 +507,73 @@ function renderOverview(id: SectionId) {
       return (
         <>
           <p>
-            <span className="font-semibold">Purpose:</span> Provide a stable, level, waterproof base that supports the
+            <span className="font-bold text-slate-900">Purpose:</span> Provide a stable, level, waterproof base that supports the
             UniQube LGS load-bearing superstructure.
           </p>
           <p>
-            <span className="font-semibold">Foundation Types:</span> UniQube supports three types depending on region
+            <span className="font-bold text-slate-900">Foundation Types:</span> UniQube supports three types depending on region
             and soil conditions:
           </p>
-          <ul className="list-disc list-inside space-y-1 ml-1 text-slate-600">
-            <li>
-              <span className="text-slate-700">ICF Foundation (preferred)</span> – USA, Canada, earthquake zones
+          <ul className="space-y-2 ml-6">
+            <li className="flex items-start gap-3">
+              <span className="text-orange-500 text-xl">→</span>
+              <span><strong>ICF Foundation (preferred)</strong> – USA, Canada, earthquake zones</span>
             </li>
-            <li>
-              <span className="text-slate-700">Wet-Pour Reinforced Concrete Slab</span> – Middle East, Africa, India
+            <li className="flex items-start gap-3">
+              <span className="text-orange-500 text-xl">→</span>
+              <span><strong>Wet-Pour Reinforced Concrete Slab</strong> – Middle East, Africa, India</span>
             </li>
-            <li>
-              <span className="text-slate-700">Dry Construction Raised Foundation</span> – Steel or concrete blocks
+            <li className="flex items-start gap-3">
+              <span className="text-orange-500 text-xl">→</span>
+              <span><strong>Dry Construction Raised Foundation</strong> – Steel or concrete blocks</span>
             </li>
           </ul>
-          <p className="pt-2">
-            Each foundation must meet the UniQube Structural TDS and pass QC Level 1–3 before LGS frame fixing begins.
-          </p>
+          <div className="bg-orange-50 border-l-4 border-orange-500 p-4 rounded-r-xl mt-4">
+            <p className="text-sm font-semibold text-orange-900 mb-0">
+              Each foundation must meet the UniQube Structural TDS and pass QC Level 1–3 before LGS frame fixing begins.
+            </p>
+          </div>
         </>
       )
     case "lgsFrames":
       return (
         <>
           <p>
-            <span className="font-semibold">Overview:</span> UniQube uses robotic, precision-manufactured Light Gauge
+            <span className="font-bold text-slate-900">Overview:</span> UniQube uses robotic, precision-manufactured Light Gauge
             Steel (LGS) superstructure that forms:
           </p>
-          <ul className="list-disc list-inside space-y-1 ml-1 text-slate-600">
-            <li>
-              <span className="text-slate-700">Load-bearing external walls</span>
+          <ul className="space-y-2 ml-6">
+            <li className="flex items-start gap-3">
+              <span className="text-blue-500 text-xl">→</span>
+              <span>Load-bearing external walls</span>
             </li>
-            <li>
-              <span className="text-slate-700">Internal partition walls (non-load-bearing)</span>
+            <li className="flex items-start gap-3">
+              <span className="text-blue-500 text-xl">→</span>
+              <span>Internal partition walls (non-load-bearing)</span>
             </li>
-            <li>
-              <span className="text-slate-700">Door/window openings</span>
+            <li className="flex items-start gap-3">
+              <span className="text-blue-500 text-xl">→</span>
+              <span>Door/window openings</span>
             </li>
-            <li>
-              <span className="text-slate-700">Support for joists, trusses & mezzanines</span>
+            <li className="flex items-start gap-3">
+              <span className="text-blue-500 text-xl">→</span>
+              <span>Support for joists, trusses & mezzanines</span>
             </li>
-            <li>
-              <span className="text-slate-700">Fire-safe service cavities</span>
+            <li className="flex items-start gap-3">
+              <span className="text-blue-500 text-xl">→</span>
+              <span>Fire-safe service cavities</span>
             </li>
-            <li>
-              <span className="text-slate-700">Cladding substructure interface</span>
+            <li className="flex items-start gap-3">
+              <span className="text-blue-500 text-xl">→</span>
+              <span>Cladding substructure interface</span>
             </li>
           </ul>
-          <p className="pt-2">
-            LGS frames must sit on a level, square foundation (Section 1) for proper assembly. Frames are
-            factory-produced; on-site focus is correct placement, plumb, level, squareness and fixing.
-          </p>
+          <div className="bg-blue-50 border-l-4 border-blue-500 p-4 rounded-r-xl mt-4">
+            <p className="text-sm font-semibold text-blue-900 mb-0">
+              LGS frames must sit on a level, square foundation (Section 1) for proper assembly. Frames are
+              factory-produced; on-site focus is correct placement, plumb, level, squareness and fixing.
+            </p>
+          </div>
         </>
       )
     case "hvac":
@@ -429,10 +583,12 @@ function renderOverview(id: SectionId) {
             This section standardises all UniQube HVAC installations: split, ducted split and VRF/VRV systems. It
             focuses on correct routing of copper piping, condensate drains, electrical feeds and fresh air where used.
           </p>
-          <p>
-            <span className="font-semibold">Target outcome:</span> No water dripping, no condensation damage, no noise
-            issues and stable, efficient cooling across the building.
-          </p>
+          <div className="bg-purple-50 border-l-4 border-purple-500 p-4 rounded-r-xl mt-4">
+            <p className="font-bold text-purple-900 mb-1">Target outcome:</p>
+            <p className="text-sm text-purple-900 mb-0">
+              No water dripping, no condensation damage, no noise issues and stable, efficient cooling across the building.
+            </p>
+          </div>
         </>
       )
     case "warranty":
@@ -442,130 +598,148 @@ function renderOverview(id: SectionId) {
             The UniQube Warranty System defines what performance UniQube guarantees after installation is complete:
             structure, waterproofing, MEP, façade and finishes.
           </p>
-          <p>
-            It is tied directly to this installation manual. If the builder follows these steps and passes the QC
-            checklists, UniQube can issue a formal multi-year warranty.
-          </p>
+          <div className="bg-slate-100 border-l-4 border-slate-700 p-4 rounded-r-xl mt-4">
+            <p className="text-sm font-semibold text-slate-900 mb-0">
+              It is tied directly to this installation manual. If the builder follows these steps and passes the QC
+              checklists, UniQube can issue a formal multi-year warranty.
+            </p>
+          </div>
         </>
       )
     default:
       return (
         <>
           <p>
-            This section summarises the purpose and scope of the <span className="font-semibold">{shortTitle(id)}</span>{" "}
+            This section summarises the purpose and scope of the <span className="font-bold">{shortTitle(id)}</span>{" "}
             part of the UniQube system.
           </p>
-          <p className="text-slate-500">
-            Replace this placeholder with the full text we already developed in chat for this section.
-          </p>
+          <div className="bg-slate-100 border-l-4 border-slate-400 p-4 rounded-r-xl mt-4">
+            <p className="text-sm text-slate-600 mb-0 italic">
+              Detailed content for this section is available in the full documentation.
+            </p>
+          </div>
         </>
       )
   }
 }
 
-function renderMethod(id: SectionId) {
+function renderMethodSteps(id: SectionId) {
+  const steps = getMethodSteps(id)
+  return steps.map((step, index) => (
+    <li key={index} className="flex gap-4 group">
+      <div className="flex-shrink-0 w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center text-white font-black text-sm shadow-lg group-hover:scale-110 transition-transform">
+        {index + 1}
+      </div>
+      <div className="flex-1 bg-slate-50 border border-slate-200 rounded-xl p-4 group-hover:bg-slate-100 group-hover:border-slate-300 transition-all">
+        <p className="text-slate-700 font-medium m-0">{step}</p>
+      </div>
+    </li>
+  ))
+}
+
+function getMethodSteps(id: SectionId): string[] {
   switch (id) {
     case "foundation":
-      return (
-        <>
-          <li>Verify foundation type and design drawings (strip, raft, pad, slab)</li>
-          <li>Check top-of-concrete levels and flatness against UniQube tolerances</li>
-          <li>Mark out wall lines and anchor positions using laser and string lines</li>
-          <li>Drill and fix anchor bolts / chem anchors as per spacing table</li>
-          <li>Install DPC / separation layer and starter track aligned to grid</li>
-          <li>Sign off base QC before any LGS frame is stood up</li>
-        </>
-      )
+      return [
+        "Verify foundation type and design drawings (strip, raft, pad, slab)",
+        "Check top-of-concrete levels and flatness against UniQube tolerances",
+        "Mark out wall lines and anchor positions using laser and string lines",
+        "Drill and fix anchor bolts / chem anchors as per spacing table",
+        "Install DPC / separation layer and starter track aligned to grid",
+        "Sign off base QC before any LGS frame is stood up"
+      ]
     case "lgsFrames":
-      return (
-        <>
-          <li>Unload and identify wall panels as per factory tags and layout drawings</li>
-          <li>Position tracks over approved starter track / base plate lines</li>
-          <li>Stand panels, plumb with laser, and temporarily brace</li>
-          <li>Fix to foundation and to adjoining walls as per connection details</li>
-          <li>Add specified bracing, noggins and blocking at doors/windows</li>
-          <li>Final plumb / level check, then release temporary bracing only after roof or diaphragm is in place</li>
-        </>
-      )
+      return [
+        "Unload and identify wall panels as per factory tags and layout drawings",
+        "Position tracks over approved starter track / base plate lines",
+        "Stand panels, plumb with laser, and temporarily brace",
+        "Fix to foundation and to adjoining walls as per connection details",
+        "Add specified bracing, noggins and blocking at doors/windows",
+        "Final plumb / level check, then release temporary bracing only after roof or diaphragm is in place"
+      ]
     case "hvac":
-      return (
-        <>
-          <li>Fix indoor unit location and confirm structural fixing and drain route</li>
-          <li>Install and insulate copper piping with smooth bends; no joints in concealed sections</li>
-          <li>Run condensate drain with continuous fall to safe discharge point</li>
-          <li>Fix outdoor unit with clearances and anti-vibration pads</li>
-          <li>Pressure test, vacuum to 500 microns, charge refrigerant by weight</li>
-          <li>Commission: check delta-T, drain flow, noise and running current</li>
-        </>
-      )
+      return [
+        "Fix indoor unit location and confirm structural fixing and drain route",
+        "Install and insulate copper piping with smooth bends; no joints in concealed sections",
+        "Run condensate drain with continuous fall to safe discharge point",
+        "Fix outdoor unit with clearances and anti-vibration pads",
+        "Pressure test, vacuum to 500 microns, charge refrigerant by weight",
+        "Commission: check delta-T, drain flow, noise and running current"
+      ]
     case "warranty":
-      return (
-        <>
-          <li>Confirm project has followed the UniQube installation manual sections 1–20</li>
-          <li>Complete and sign all relevant QC checklists and photographic records</li>
-          <li>Populate the project-specific warranty template with dates and scope</li>
-          <li>Explain inclusions, exclusions and maintenance obligations to the client</li>
-          <li>Issue digitally signed warranty certificate and store in UniQube system</li>
-        </>
-      )
+      return [
+        "Confirm project has followed the UniQube installation manual sections 1–20",
+        "Complete and sign all relevant QC checklists and photographic records",
+        "Populate the project-specific warranty template with dates and scope",
+        "Explain inclusions, exclusions and maintenance obligations to the client",
+        "Issue digitally signed warranty certificate and store in UniQube system"
+      ]
     default:
-      return (
-        <>
-          <li>Paste the step-by-step method for this section</li>
-          <li>Each step should be specific, measurable and easy for site teams to follow</li>
-        </>
-      )
+      return [
+        "Review section-specific requirements and drawings",
+        "Prepare materials and tools as per specifications",
+        "Follow manufacturer guidelines and UniQube standards",
+        "Document progress with photographs at key stages",
+        "Complete QC checklist before proceeding to next phase"
+      ]
   }
 }
 
-function renderQC(id: SectionId) {
+function renderQCItems(id: SectionId) {
+  const items = getQCItems(id)
+  return items.map((item, index) => (
+    <li key={index} className="flex items-start gap-3 group">
+      <div className="flex-shrink-0 w-6 h-6 bg-green-500 rounded-lg flex items-center justify-center text-white font-black text-xs shadow-md group-hover:scale-110 transition-transform">
+        ✓
+      </div>
+      <div className="flex-1 bg-green-50 border border-green-200 rounded-xl px-4 py-3 group-hover:bg-green-100 transition-colors">
+        <p className="text-slate-700 font-medium m-0">{item}</p>
+      </div>
+    </li>
+  ))
+}
+
+function getQCItems(id: SectionId): string[] {
   switch (id) {
     case "foundation":
-      return (
-        <>
-          <li>Levels within tolerance over full building footprint</li>
-          <li>No honeycombing or visible structural defects at anchor zones</li>
-          <li>Anchor bolts at correct location, quantity and embedment depth</li>
-          <li>DPC / separation membrane continuous, with no tears or gaps</li>
-          <li>Base layout matches approved UniQube grid</li>
-        </>
-      )
+      return [
+        "Levels within tolerance over full building footprint",
+        "No honeycombing or visible structural defects at anchor zones",
+        "Anchor bolts at correct location, quantity and embedment depth",
+        "DPC / separation membrane continuous, with no tears or gaps",
+        "Base layout matches approved UniQube grid"
+      ]
     case "lgsFrames":
-      return (
-        <>
-          <li>All walls plumb, level and square within UniQube tolerance</li>
-          <li>Correct stud spacing and gauge as per engineer's schedule</li>
-          <li>Bracing and hold-downs installed wherever specified</li>
-          <li>No site cutting of structural studs without written approval</li>
-          <li>All fixings tight; no missing screws or anchors</li>
-        </>
-      )
+      return [
+        "All walls plumb, level and square within UniQube tolerance",
+        "Correct stud spacing and gauge as per engineer's schedule",
+        "Bracing and hold-downs installed wherever specified",
+        "No site cutting of structural studs without written approval",
+        "All fixings tight; no missing screws or anchors"
+      ]
     case "hvac":
-      return (
-        <>
-          <li>No water leakage from indoor units after 24-hour operation</li>
-          <li>Drain lines fully visible at discharge and flowing freely</li>
-          <li>Refrigerant pressures and temperatures within manufacturer range</li>
-          <li>Noise levels acceptable inside and outside the unit</li>
-          <li>Thermostats function correctly and are logically located</li>
-        </>
-      )
+      return [
+        "No water leakage from indoor units after 24-hour operation",
+        "Drain lines fully visible at discharge and flowing freely",
+        "Refrigerant pressures and temperatures within manufacturer range",
+        "Noise levels acceptable inside and outside the unit",
+        "Thermostats function correctly and are logically located"
+      ]
     case "warranty":
-      return (
-        <>
-          <li>QC checklists for all sections are complete and signed</li>
-          <li>No major outstanding defects or leaks at time of handover</li>
-          <li>Client has received maintenance guidelines</li>
-          <li>Warranty terms, durations and exclusions clearly documented</li>
-        </>
-      )
+      return [
+        "QC checklists for all sections are complete and signed",
+        "No major outstanding defects or leaks at time of handover",
+        "Client has received maintenance guidelines",
+        "Warranty terms, durations and exclusions clearly documented"
+      ]
     default:
-      return (
-        <>
-          <li>Paste the QC bullet list for this section</li>
-          <li>QC items should be visual, checkable and binary (pass / fail)</li>
-        </>
-      )
+      return [
+        "Visual inspection completed with no defects",
+        "Measurements verified against drawings",
+        "Materials meet specified standards",
+        "Installation follows approved procedures",
+        "Documentation completed and signed off"
+      ]
   }
 }
 
@@ -573,130 +747,98 @@ function renderTDS(id: SectionId) {
   switch (id) {
     case "foundation":
       return (
-        <>
-          <div className="space-y-2">
-            <p className="font-semibold text-slate-900">Foundation Types:</p>
-            <div className="space-y-1 text-[12px]">
-              <div className="flex justify-between">
-                <span>Level Tolerance:</span>
-                <span className="font-semibold text-orange-600">±3 mm max</span>
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-6 border border-orange-200">
+            <h4 className="font-black text-slate-900 mb-4 text-lg">Foundation Specifications</h4>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-white rounded-xl p-4 shadow-sm">
+                <div className="text-xs text-slate-500 font-bold uppercase mb-1">Level Tolerance</div>
+                <div className="text-2xl font-black text-orange-600">±3 mm max</div>
               </div>
-              <div className="flex justify-between">
-                <span>Surface Flatness:</span>
-                <span className="font-semibold text-orange-600">±2 mm</span>
+              <div className="bg-white rounded-xl p-4 shadow-sm">
+                <div className="text-xs text-slate-500 font-bold uppercase mb-1">Surface Flatness</div>
+                <div className="text-2xl font-black text-orange-600">±2 mm</div>
               </div>
-              <div className="flex justify-between">
-                <span>Concrete Grade:</span>
-                <span className="font-semibold text-orange-600">C30–C35 min</span>
+              <div className="bg-white rounded-xl p-4 shadow-sm">
+                <div className="text-xs text-slate-500 font-bold uppercase mb-1">Concrete Grade</div>
+                <div className="text-2xl font-black text-orange-600">C30–C35</div>
               </div>
-              <div className="flex justify-between">
-                <span>Anchor Bolt Size:</span>
-                <span className="font-semibold text-orange-600">M10 SS</span>
+              <div className="bg-white rounded-xl p-4 shadow-sm">
+                <div className="text-xs text-slate-500 font-bold uppercase mb-1">Anchor Bolt</div>
+                <div className="text-2xl font-black text-orange-600">M10 SS</div>
               </div>
-              <div className="flex justify-between">
-                <span>Anchor Spacing:</span>
-                <span className="font-semibold text-orange-600">500 mm (20")</span>
+              <div className="bg-white rounded-xl p-4 shadow-sm">
+                <div className="text-xs text-slate-500 font-bold uppercase mb-1">Anchor Spacing</div>
+                <div className="text-2xl font-black text-orange-600">500 mm</div>
               </div>
-              <div className="flex justify-between">
-                <span>Embed Depth:</span>
-                <span className="font-semibold text-orange-600">150 mm (6")</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Waterproofing:</span>
-                <span className="font-semibold text-orange-600">Tyvek/TPO</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Curing Time:</span>
-                <span className="font-semibold text-orange-600">7–14 days full</span>
+              <div className="bg-white rounded-xl p-4 shadow-sm">
+                <div className="text-xs text-slate-500 font-bold uppercase mb-1">Embed Depth</div>
+                <div className="text-2xl font-black text-orange-600">150 mm</div>
               </div>
             </div>
           </div>
-        </>
+        </div>
       )
     case "lgsFrames":
       return (
-        <>
-          <div className="space-y-2">
-            <p className="font-semibold text-slate-900">Material Specifications:</p>
-            <div className="space-y-1 text-[12px]">
-              <div className="flex justify-between">
-                <span>Yield Strength (External):</span>
-                <span className="font-semibold text-orange-600">345 MPa</span>
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-6 border border-blue-200">
+            <h4 className="font-black text-slate-900 mb-4 text-lg">Material Specifications</h4>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="bg-white rounded-xl p-4 shadow-sm">
+                <div className="text-xs text-slate-500 font-bold uppercase mb-1">Yield (External)</div>
+                <div className="text-2xl font-black text-blue-600">345 MPa</div>
               </div>
-              <div className="flex justify-between">
-                <span>Yield Strength (Internal):</span>
-                <span className="font-semibold text-orange-600">230 MPa</span>
+              <div className="bg-white rounded-xl p-4 shadow-sm">
+                <div className="text-xs text-slate-500 font-bold uppercase mb-1">Yield (Internal)</div>
+                <div className="text-2xl font-black text-blue-600">230 MPa</div>
               </div>
-              <div className="flex justify-between">
-                <span>Galvanization:</span>
-                <span className="font-semibold text-orange-600">Z180</span>
+              <div className="bg-white rounded-xl p-4 shadow-sm">
+                <div className="text-xs text-slate-500 font-bold uppercase mb-1">Galvanization</div>
+                <div className="text-2xl font-black text-blue-600">Z180</div>
               </div>
-              <div className="flex justify-between">
-                <span>Standard:</span>
-                <span className="font-semibold text-orange-600">ASTM A1003</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Thickness:</span>
-                <span className="font-semibold text-orange-600">1.20 mm</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Stud Spacing:</span>
-                <span className="font-semibold text-orange-600">As per schedule</span>
+              <div className="bg-white rounded-xl p-4 shadow-sm">
+                <div className="text-xs text-slate-500 font-bold uppercase mb-1">Standard</div>
+                <div className="text-2xl font-black text-blue-600">A1003</div>
               </div>
             </div>
-            <p className="pt-1 text-slate-600">
-              Frame ID System: E1–E4 (external), I1–I3 (internal), Color-coded for identification.
-            </p>
+            <div className="mt-4 bg-white rounded-xl p-4 shadow-sm">
+              <p className="text-sm text-slate-600 m-0">
+                Frame ID System: <strong>E1–E4</strong> (external), <strong>I1–I3</strong> (internal), Color-coded for identification.
+              </p>
+            </div>
           </div>
-        </>
-      )
-    case "hvac":
-      return (
-        <>
-          <p>
-            Record AC capacities, refrigerant type, design room loads, duct sizes and allowed line lengths per
-            manufacturer specifications.
-          </p>
-          <p className="text-slate-600">
-            Link to commissioning sheet with pressures, temperatures, and delta-T measurements.
-          </p>
-        </>
+        </div>
       )
     case "warranty":
       return (
-        <>
-          <p className="font-semibold text-slate-900">Warranty Durations:</p>
-          <div className="space-y-1 text-[12px]">
-            <div className="flex justify-between">
-              <span>Structural:</span>
-              <span className="font-semibold text-orange-600">10 years</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Waterproofing:</span>
-              <span className="font-semibold text-orange-600">5 years</span>
-            </div>
-            <div className="flex justify-between">
-              <span>MEP Systems:</span>
-              <span className="font-semibold text-orange-600">2 years</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Façade:</span>
-              <span className="font-semibold text-orange-600">5 years</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Finishes:</span>
-              <span className="font-semibold text-orange-600">1 year</span>
+        <div className="space-y-6">
+          <div className="bg-gradient-to-br from-slate-100 to-slate-200 rounded-2xl p-6 border border-slate-300">
+            <h4 className="font-black text-slate-900 mb-4 text-lg">Warranty Durations</h4>
+            <div className="space-y-3">
+              {[
+                { label: "Structural", duration: "10 years", color: "blue" },
+                { label: "Waterproofing", duration: "5 years", color: "green" },
+                { label: "MEP Systems", duration: "2 years", color: "purple" },
+                { label: "Façade", duration: "5 years", color: "orange" },
+                { label: "Finishes", duration: "1 year", color: "red" }
+              ].map((item) => (
+                <div key={item.label} className="bg-white rounded-xl p-4 shadow-sm flex items-center justify-between">
+                  <span className="font-bold text-slate-700">{item.label}</span>
+                  <span className={`text-xl font-black text-${item.color}-600`}>{item.duration}</span>
+                </div>
+              ))}
             </div>
           </div>
-        </>
+        </div>
       )
     default:
       return (
-        <>
-          <p>
-            This card contains TDS-style data: thickness, spacing, materials, fire ratings, and acoustic/thermal values.
+        <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200">
+          <p className="text-slate-600 m-0">
+            Technical data sheets contain specifications for thickness, spacing, materials, fire ratings, and acoustic/thermal values.
           </p>
-        </>
+        </div>
       )
   }
 }

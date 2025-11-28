@@ -10,7 +10,33 @@ interface PopupPosition {
 export default function FeaturesBento() {
   const [hoveredCard, setHoveredCard] = useState<string | null>(null)
   const [popupPosition, setPopupPosition] = useState<PopupPosition>({ top: 0, left: 0 })
+  const [isVisible, setIsVisible] = useState(false)
+  const sectionRef = useRef<HTMLElement>(null)
   const buttonRefs = useRef<{ [key: string]: HTMLButtonElement | null }>({})
+
+  // Intersection Observer for scroll animation
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true)
+          }
+        })
+      },
+      { threshold: 0.1 }
+    )
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current)
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current)
+      }
+    }
+  }, [])
 
   const updatePopupPosition = (cardId: string) => {
     const button = buttonRefs.current[cardId]
@@ -82,19 +108,24 @@ export default function FeaturesBento() {
   }
 
   return (
-    <section className="w-full py-16 bg-white">
+    <section ref={sectionRef} className="w-full py-24 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="mb-12">
-          <h2 className="text-4xl font-bold text-slate-900 mb-4">UniQube System Capabilities</h2>
-          <p className="text-lg text-slate-600">Advanced modular construction engineered for precision</p>
+        {/* Header - Apple-style Typography */}
+        <div className={`mb-16 text-center transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <h2 className="text-5xl sm:text-6xl md:text-7xl font-semibold text-slate-900 mb-4 tracking-tight leading-tight">
+            System Capabilities
+          </h2>
+          <p className="text-xl sm:text-2xl text-slate-600 font-light max-w-3xl mx-auto">
+            Advanced modular construction engineered for precision
+          </p>
         </div>
 
         <div className="grid grid-cols-3 gap-6 auto-rows-[320px] md:auto-rows-[360px]">
           {/* 1. Modular Assembly - Top Left */}
-          <div className="rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 hover:shadow-lg transition-shadow group">
+          <div className={`rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 hover:shadow-lg transition-all duration-700 group ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '200ms' }}>
             <div className="h-full flex flex-col">
               <div className="px-6 pt-6 pb-4">
-                <h3 className="text-xl font-bold text-slate-900">Modular Assembly</h3>
+                <h3 className="text-xl font-semibold text-slate-900 tracking-tight">Modular Assembly</h3>
               </div>
               <div className="flex-1 relative overflow-hidden bg-gradient-to-br from-slate-200 to-slate-100">
                 <img
@@ -117,10 +148,10 @@ export default function FeaturesBento() {
           </div>
 
           {/* 2. Precision Engineering - Top Center */}
-          <div className="rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 hover:shadow-lg transition-shadow group">
+          <div className={`rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 hover:shadow-lg transition-all duration-700 group ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '300ms' }}>
             <div className="h-full flex flex-col">
               <div className="px-6 pt-6 pb-4">
-                <h3 className="text-xl font-bold text-slate-900">Technical data sheet</h3>
+                <h3 className="text-xl font-semibold text-slate-900 tracking-tight">Technical Data Sheet</h3>
               </div>
               <div className="flex-1 relative overflow-hidden bg-gradient-to-br from-slate-200 to-slate-100">
                 <img
@@ -143,10 +174,10 @@ export default function FeaturesBento() {
           </div>
 
           {/* 3. Integrated Systems - Top Right */}
-          <div className="rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 hover:shadow-lg transition-shadow group">
+          <div className={`rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 hover:shadow-lg transition-all duration-700 group ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '400ms' }}>
             <div className="h-full flex flex-col">
               <div className="px-6 pt-6 pb-4">
-                <h3 className="text-xl font-bold text-slate-900">Pre-Integrated MEP</h3>
+                <h3 className="text-xl font-semibold text-slate-900 tracking-tight">Pre-Integrated MEP</h3>
               </div>
               <div className="flex-1 relative overflow-hidden bg-gradient-to-br from-slate-200 to-slate-100">
                 <img
@@ -169,10 +200,10 @@ export default function FeaturesBento() {
           </div>
 
           {/* 4. Structural Performance - Bottom Left (2x1) */}
-          <div className="col-span-2 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 hover:shadow-lg transition-shadow group">
+          <div className={`col-span-2 rounded-2xl overflow-hidden bg-slate-100 border border-slate-200 hover:shadow-lg transition-all duration-700 group ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '500ms' }}>
             <div className="h-full flex flex-col">
               <div className="px-6 pt-6 pb-4">
-                <h3 className="text-2xl font-bold text-slate-900">Structural Capacity</h3>
+                <h3 className="text-2xl font-semibold text-slate-900 tracking-tight">Structural Capacity</h3>
               </div>
               <div className="flex-1 relative overflow-hidden bg-gradient-to-br from-slate-200 to-slate-100">
                 <img
@@ -195,10 +226,10 @@ export default function FeaturesBento() {
           </div>
 
           {/* 5. Energy Efficiency - Bottom Right */}
-          <div className="rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 hover:shadow-lg transition-shadow group">
+          <div className={`rounded-2xl overflow-hidden bg-slate-900 border border-slate-800 hover:shadow-lg transition-all duration-700 group ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'}`} style={{ transitionDelay: '600ms' }}>
             <div className="h-full flex flex-col">
               <div className="px-6 pt-6 pb-4">
-                <h3 className="text-xl font-bold text-white">Energy Efficient</h3>
+                <h3 className="text-xl font-semibold text-white tracking-tight">Energy Efficient</h3>
               </div>
               <div className="flex-1 relative overflow-hidden bg-gradient-to-br from-slate-800 to-slate-900">
                 <img
@@ -241,10 +272,10 @@ export default function FeaturesBento() {
               />
             </div>
             <div className="p-4">
-              <h4 className="font-bold text-slate-900 mb-2">
+              <h4 className="font-semibold text-slate-900 mb-2 tracking-tight">
                 {cardData[hoveredCard as keyof typeof cardData].title}
               </h4>
-              <p className="text-sm text-slate-600 mb-3">
+              <p className="text-sm text-slate-600 mb-3 font-light">
                 {cardData[hoveredCard as keyof typeof cardData].description}
               </p>
               <ul className="text-xs text-slate-600 space-y-1">

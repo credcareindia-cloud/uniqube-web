@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronDown } from "lucide-react"
+import { ChevronDown, Mail, Phone, Package, Blocks, Wrench, Home, Frame, Droplets, Snowflake, Ruler, DollarSign } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface FAQItem {
@@ -156,6 +156,30 @@ const faqData: FAQItem[] = [
 
 const categories = Array.from(new Set(faqData.map((item) => item.category)))
 
+const categoryColors: Record<string, string> = {
+  "Container & Materials": "from-blue-500 to-indigo-600",
+  "Wall Assembly": "from-green-500 to-emerald-600",
+  "Assembly Process": "from-purple-500 to-violet-600",
+  "Roofing": "from-orange-500 to-red-600",
+  "Windows": "from-cyan-500 to-blue-600",
+  "Plumbing": "from-teal-500 to-cyan-600",
+  "HVAC": "from-pink-500 to-rose-600",
+  "Design & Engineering": "from-amber-500 to-orange-600",
+  "Costs & Contracts": "from-slate-700 to-slate-900",
+}
+
+const categoryIcons: Record<string, any> = {
+  "Container & Materials": Package,
+  "Wall Assembly": Blocks,
+  "Assembly Process": Wrench,
+  "Roofing": Home,
+  "Windows": Frame,
+  "Plumbing": Droplets,
+  "HVAC": Snowflake,
+  "Design & Engineering": Ruler,
+  "Costs & Contracts": DollarSign,
+}
+
 export default function FAQSection() {
   const [expandedItems, setExpandedItems] = useState<Set<string>>(new Set())
   const [selectedCategory, setSelectedCategory] = useState<string>(categories[0])
@@ -173,82 +197,150 @@ export default function FAQSection() {
   const filteredFAQ = selectedCategory ? faqData.filter((item) => item.category === selectedCategory) : faqData
 
   return (
-    <section className="w-full py-20 px-4 bg-background">
-      <div className="max-w-6xl mx-auto">
-        {/* Header */}
-        <div className="mb-12">
-          <h2 className="text-4xl font-bold text-foreground mb-4">Frequently Asked Questions</h2>
-          <p className="text-lg text-muted-foreground">
+    <section className="w-full py-20 px-4 bg-gradient-to-br from-slate-50 via-white to-slate-50 relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-10 w-72 h-72 bg-purple-200 rounded-full blur-3xl opacity-20 animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-blue-200 rounded-full blur-3xl opacity-20 animate-pulse" style={{ animationDelay: '1s' }}></div>
+      </div>
+
+      <div className="max-w-7xl mx-auto relative z-10">
+        {/* Modern Header */}
+        <div className="text-center mb-16">
+          <div className="inline-block bg-gradient-to-r from-orange-500 to-red-500 text-white px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wide mb-6 shadow-lg">
+            Got Questions?
+          </div>
+          <h2 className="text-5xl md:text-6xl font-black text-slate-900 mb-6 tracking-tight">
+            Frequently Asked
+            <span className="block bg-gradient-to-r from-orange-500 to-red-500 bg-clip-text text-transparent">
+              Questions
+            </span>
+          </h2>
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
             Everything you need to know about UniQube modular construction systems
           </p>
         </div>
 
-        {/* Category Filter */}
-        <div className="mb-8 flex flex-wrap gap-2">
-          {categories.map((category) => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={cn(
-                "px-4 py-2 rounded-lg font-medium transition-all",
-                selectedCategory === category
-                  ? "bg-accent text-accent-foreground"
-                  : "bg-muted text-muted-foreground hover:bg-border",
-              )}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
-        {/* FAQ Items */}
-        <div className="space-y-3">
-          {filteredFAQ.map((item, index) => (
-            <div
-              key={index}
-              className="border border-border rounded-lg overflow-hidden bg-card hover:border-accent/30 transition-colors"
-            >
-              <button
-                onClick={() => toggleItem(item.question)}
-                className="w-full px-6 py-4 flex items-center justify-between hover:bg-muted/50 transition-colors"
-              >
-                <h3 className="text-lg font-semibold text-foreground text-left">{item.question}</h3>
-                <ChevronDown
+        {/* Category Filter with Modern Design */}
+        <div className="mb-12">
+          <div className="text-center mb-6">
+            <p className="text-sm font-bold text-slate-500 uppercase tracking-widest">Select Category</p>
+          </div>
+          <div className="flex flex-wrap justify-center gap-3">
+            {categories.map((category) => {
+              const CategoryIcon = categoryIcons[category]
+              return (
+                <button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
                   className={cn(
-                    "w-5 h-5 text-accent flex-shrink-0 ml-4 transition-transform",
-                    expandedItems.has(item.question) && "rotate-180",
+                    "group relative px-6 py-4 rounded-2xl font-bold text-sm transition-all duration-300 hover:scale-105",
+                    selectedCategory === category
+                      ? `bg-gradient-to-br ${categoryColors[category]} text-white shadow-xl`
+                      : "bg-white text-slate-700 border-2 border-slate-200 hover:border-slate-300 shadow-md"
                   )}
-                />
-              </button>
-
-              {expandedItems.has(item.question) && (
-                <div className="px-6 py-4 bg-muted/30 border-t border-border">
-                  <p className="text-foreground leading-relaxed">{item.answer}</p>
-                </div>
-              )}
-            </div>
-          ))}
+                >
+                  <div className="flex items-center gap-2">
+                    <CategoryIcon className="w-5 h-5" />
+                    <span>{category}</span>
+                  </div>
+                  {selectedCategory === category && (
+                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-white rounded-full border-2 border-orange-500 animate-pulse"></div>
+                  )}
+                </button>
+              )
+            })}
+          </div>
         </div>
 
-        {/* Contact CTA */}
-        <div className="mt-12 p-8 bg-muted rounded-lg text-center">
-          <h3 className="text-2xl font-bold text-foreground mb-2">Still have questions?</h3>
-          <p className="text-muted-foreground mb-6">
-            Contact our team for more detailed information about UniQube modular construction
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="mailto:arbab@mulkholdings.com"
-              className="px-6 py-2 bg-accent text-accent-foreground rounded-lg font-medium hover:opacity-90 transition-opacity"
-            >
-              Email Us
-            </a>
-            <a
-              href="tel:+971566856608"
-              className="px-6 py-2 border-2 border-accent text-accent rounded-lg font-medium hover:bg-accent/10 transition-colors"
-            >
-              Call +971 56 6856608
-            </a>
+        {/* FAQ Items with Modern Design */}
+        <div className="space-y-4 mb-16">
+          {filteredFAQ.map((item, index) => {
+            const isExpanded = expandedItems.has(item.question)
+            return (
+              <div
+                key={index}
+                className={cn(
+                  "group rounded-2xl overflow-hidden transition-all duration-300",
+                  isExpanded
+                    ? "bg-white shadow-2xl border-2 border-orange-400"
+                    : "bg-white shadow-md border-2 border-slate-200 hover:border-slate-300 hover:shadow-lg"
+                )}
+                style={{ animationDelay: `${index * 50}ms` }}
+              >
+                <button
+                  onClick={() => toggleItem(item.question)}
+                  className="w-full px-8 py-6 flex items-center justify-between transition-colors"
+                >
+                  <div className="flex items-start gap-4 text-left flex-1">
+                    <div className={cn(
+                      "flex-shrink-0 w-10 h-10 rounded-xl flex items-center justify-center text-white font-black text-lg shadow-lg transition-transform",
+                      isExpanded ? `bg-gradient-to-br ${categoryColors[selectedCategory]} scale-110` : "bg-slate-400 group-hover:scale-110"
+                    )}>
+                      {index + 1}
+                    </div>
+                    <h3 className={cn(
+                      "text-lg font-bold transition-colors flex-1",
+                      isExpanded ? "text-slate-900" : "text-slate-700 group-hover:text-slate-900"
+                    )}>
+                      {item.question}
+                    </h3>
+                  </div>
+                  <ChevronDown
+                    className={cn(
+                      "w-6 h-6 flex-shrink-0 ml-4 transition-all duration-300",
+                      isExpanded ? "rotate-180 text-orange-500" : "text-slate-400 group-hover:text-slate-600"
+                    )}
+                  />
+                </button>
+
+                {isExpanded && (
+                  <div className="px-8 pb-6">
+                    <div className="pl-14 pr-10">
+                      <div className="bg-gradient-to-br from-slate-50 to-slate-100 rounded-xl p-6 border-l-4 border-orange-500">
+                        <p className="text-slate-700 leading-relaxed">{item.answer}</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
+
+        {/* Contact CTA with Modern Design */}
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-500 rounded-3xl blur-xl opacity-20"></div>
+          <div className="relative bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-12 text-white shadow-2xl overflow-hidden">
+            {/* Decorative elements */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-orange-500/10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl"></div>
+
+            <div className="relative z-10 text-center">
+              <div className="inline-block bg-orange-500 text-white px-6 py-2 rounded-full text-sm font-bold uppercase tracking-wide mb-6 shadow-lg">
+                Still Need Help?
+              </div>
+              <h3 className="text-4xl font-black mb-4">Let's Talk About Your Project</h3>
+              <p className="text-slate-300 text-lg mb-8 max-w-2xl mx-auto">
+                Contact our team for more detailed information about UniQube modular construction
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a
+                  href="mailto:arbab@mulkholdings.com"
+                  className="group px-8 py-4 bg-white text-slate-900 rounded-full font-bold text-lg hover:bg-orange-500 hover:text-white transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center justify-center gap-2"
+                >
+                  <Mail className="w-5 h-5" />
+                  <span>Email Us</span>
+                </a>
+                <a
+                  href="tel:+971566856608"
+                  className="group px-8 py-4 border-3 border-white text-white rounded-full font-bold text-lg hover:bg-white hover:text-slate-900 transition-all duration-300 shadow-xl hover:shadow-2xl hover:scale-105 flex items-center justify-center gap-2"
+                >
+                  <Phone className="w-5 h-5" />
+                  <span>Call +971 56 6856608</span>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </div>

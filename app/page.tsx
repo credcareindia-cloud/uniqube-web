@@ -25,13 +25,13 @@ export default function Home() {
         <FeaturesBento />
         <InstallationManualSection />
         <SystemOverview />
-        <Foundation />
-        <LgsFrames />
-        <JoistsSection />
-        <BoardsSection />
-        <WaterproofingSection />
-        <WindowsSection />
-        <AcmSection />
+        {/* <Foundation /> */}
+        {/* <LgsFrames /> */}
+        {/* <JoistsSection /> */}
+        {/* <BoardsSection /> */}
+        {/* <WaterproofingSection /> */}
+        {/* <WindowsSection /> */}
+        {/* <AcmSection /> */}
         <FAQSection />
         <ContactSection />
       </main>

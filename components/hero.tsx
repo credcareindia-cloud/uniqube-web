@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@/components/ui/button'
+import { ArrowRight } from 'lucide-react'
 
 export default function Hero() {
   const scrollToSection = (id: string) => {
@@ -9,55 +9,119 @@ export default function Hero() {
   }
 
   return (
-    <section className="relative w-full h-screen overflow-hidden">
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="absolute inset-0 w-full h-full object-cover"
-      >
-        <source src="https://yvt4zt8otzn0p90m.public.blob.vercel-storage.com/WhatsApp%20Video%202025-11-24%20at%2018.02.23_fee7fe3c.mp4" type="video/mp4" />
-      </video>
+    <section className="relative w-full h-screen overflow-hidden bg-black">
+      {/* Video Background - Full visibility */}
+      <div className="absolute inset-0">
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover"
+        >
+          <source src="https://yvt4zt8otzn0p90m.public.blob.vercel-storage.com/WhatsApp%20Video%202025-11-24%20at%2018.02.23_fee7fe3c.mp4" type="video/mp4" />
+        </video>
 
-      {/* Dark overlay for text readability */}
-      <div className="absolute inset-0 bg-black/40" />
+        {/* Minimal gradient overlay - only for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/60" />
+      </div>
 
-      {/* Centered Content */}
+      {/* Main Content - Centered and Minimal */}
       <div className="relative z-10 h-full flex flex-col items-center justify-center px-6">
-        <div className="text-center max-w-2xl">
-          <h1 className="text-6xl md:text-7xl font-extrabold text-white mb-4 leading-tight tracking-tight">
-            Revolutionary Modular
-            <span className="block text-accent"> Construction</span>
-          </h1>
+        <div className="max-w-5xl mx-auto text-center space-y-10 animate-fade-in">
 
-          <p className="text-xl md:text-2xl text-white/90 mb-12 font-light">
-            Innovation in Building Systems
-          </p>
+          {/* Main Headline - Apple-style Typography */}
+          <div className="space-y-6">
+            <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold text-white leading-[0.95] tracking-tight">
+              Revolutionary
+            </h1>
+            <h2 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-semibold text-white/90 leading-tight tracking-tight">
+              Modular Construction
+            </h2>
+            <p className="text-xl sm:text-2xl md:text-3xl text-white/80 font-light max-w-3xl mx-auto leading-relaxed pt-4">
+              Precision-engineered building systems for the future
+            </p>
+          </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-            <Button
+          {/* CTA Buttons - Minimal Apple-style */}
+          <div className="flex flex-col sm:flex-row gap-5 justify-center items-center pt-8">
+            <button
               onClick={() => scrollToSection('overview')}
-              className="px-8 py-3 bg-white text-black rounded-full font-semibold hover:bg-white/90 transition-all shadow-lg"
+              className="group px-10 py-4 bg-white text-black rounded-full font-semibold text-lg hover:bg-white/90 transition-all duration-300 flex items-center gap-3"
             >
-              Explore System
-            </Button>
+              <span>Explore System</span>
+              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            </button>
 
-            <Button
+            <button
               onClick={() => scrollToSection('contact')}
-              className="px-8 py-3 border-2 border-white text-white rounded-full font-semibold hover:bg-white/10 transition-all backdrop-blur-sm"
+              className="px-10 py-4 border-2 border-white/30 text-white rounded-full font-semibold text-lg hover:bg-white/10 hover:border-white/50 transition-all duration-300 backdrop-blur-sm"
             >
-              Watch Video
-            </Button>
+              Get in Touch
+            </button>
+          </div>
+
+          {/* Minimal Stats - Clean Apple-style */}
+          <div className="pt-16">
+            <div className="inline-flex divide-x divide-white/20 backdrop-blur-md bg-white/10 rounded-full px-2 py-3 border border-white/20">
+              {[
+                { value: '50%', label: 'Faster' },
+                { value: '30+', label: 'Projects' },
+                { value: '100%', label: 'Quality' },
+              ].map((stat, index) => (
+                <div key={index} className="px-8 sm:px-12 text-center">
+                  <div className="text-3xl sm:text-4xl font-semibold text-white mb-1">
+                    {stat.value}
+                  </div>
+                  <div className="text-xs sm:text-sm text-white/70 font-medium">
+                    {stat.label}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Scroll Indicator - Minimal */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+          <div className="w-6 h-10 border-2 border-white/30 rounded-full flex items-start justify-center p-2">
+            <div className="w-1 h-2 bg-white/60 rounded-full animate-scroll"></div>
           </div>
         </div>
       </div>
 
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-10 animate-pulse">
-        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-        </svg>
-      </div>
+      {/* Custom Animations */}
+      <style jsx>{`
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes scroll {
+          0% {
+            transform: translateY(0);
+            opacity: 1;
+          }
+          100% {
+            transform: translateY(12px);
+            opacity: 0;
+          }
+        }
+
+        .animate-fade-in {
+          animation: fade-in 1.2s ease-out forwards;
+        }
+
+        .animate-scroll {
+          animation: scroll 1.5s ease-in-out infinite;
+        }
+      `}</style>
     </section>
   )
 }
